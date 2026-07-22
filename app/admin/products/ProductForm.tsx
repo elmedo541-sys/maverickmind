@@ -15,6 +15,7 @@ type Props = {
     productName?: string;
     modelNumber?: string;
     categoryId?: number | null;
+    categoryName?: string;
     brandId?: number | null;
     brandName?: string;
     price?: string;
@@ -91,23 +92,45 @@ export default function ProductForm({
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Category
-          </label>
-          <select
-            name="category_id"
-            defaultValue={defaultValues?.categoryId ?? ""}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Select category</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.categoryName}
-              </option>
-            ))}
-          </select>
-        </div>
+        {mode === "create" ? (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Category
+            </label>
+            <input
+              type="text"
+              name="category_name"
+              list="category-suggestions"
+              placeholder="e.g. Fire Alarm Panels"
+              defaultValue={defaultValues?.categoryName}
+              autoComplete="off"
+              className="w-full border rounded px-3 py-2"
+            />
+            <datalist id="category-suggestions">
+              {categories.map((c) => (
+                <option key={c.id} value={c.categoryName} />
+              ))}
+            </datalist>
+          </div>
+        ) : (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Category
+            </label>
+            <select
+              name="category_id"
+              defaultValue={defaultValues?.categoryId ?? ""}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select category</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.categoryName}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {mode === "create" ? (
           <div>
@@ -117,10 +140,17 @@ export default function ProductForm({
             <input
               type="text"
               name="brand_name"
+              list="brand-suggestions"
               placeholder="e.g. Bosch"
               defaultValue={defaultValues?.brandName}
+              autoComplete="off"
               className="w-full border rounded px-3 py-2"
             />
+            <datalist id="brand-suggestions">
+              {brands.map((b) => (
+                <option key={b.id} value={b.brandName} />
+              ))}
+            </datalist>
           </div>
         ) : (
           <div>

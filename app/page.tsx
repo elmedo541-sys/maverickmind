@@ -77,3 +77,50 @@ export default async function HomePage() {
             View all &rarr;
           </Link>
         </div>
+        {products.length === 0 ? (
+          <p className="text-gray-500">No products yet.</p>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+            {products.map((p) => (
+              <ProductCard
+                key={p.id}
+                id={p.id}
+                productName={p.productName}
+                price={p.price.toString()}
+                image={p.image}
+                categoryName={p.category?.categoryName}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="bg-white border-t">
+        <div className="max-w-6xl mx-auto px-6 py-14">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-navy">Our Services</h2>
+            <Link href="/services" className="text-blue-700 text-sm font-medium">
+              View all &rarr;
+            </Link>
+          </div>
+          {services.length === 0 ? (
+            <p className="text-gray-500">No services yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {services.map((s) => (
+                <div key={s.id} className="bg-gray-50 rounded-lg p-5 shadow-sm">
+                  <h3 className="font-semibold text-navy mb-2">
+                    {s.serviceName}
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-3">
+                    {s.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}

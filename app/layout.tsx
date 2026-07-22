@@ -5,10 +5,11 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "MaverickMind",
+    default: "MaverickMind | Security & Communication Solutions",
     template: "%s | MaverickMind",
   },
-  description: "Fire alarm systems, components, and installation services.",
+  description:
+    "Fire alarm systems, CCTV, PoE switches, video recorders, and cabling & wiring, plus professional installation services.",
 };
 
 export default function RootLayout({

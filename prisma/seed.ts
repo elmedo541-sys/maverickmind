@@ -25,14 +25,13 @@ async function main() {
   }
 
   // --- Starter categories & brands (optional, safe to edit/remove) ---
-  const categories = [
-    "Fire Alarm Panels",
-    "Detectors",
-    "Notification Devices",
-    "Cables & Wiring",
-    "Accessories",
+ const categories = [
+    "Fire Alarm Systems",
+    "CCTV",
+    "PoE Switches",
+    "Video Recorders",
+    "Wires & Pipes",
   ];
-
   for (const categoryName of categories) {
     await prisma.category.upsert({
       where: { categoryName },

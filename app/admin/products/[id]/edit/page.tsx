@@ -31,6 +31,7 @@ export default async function EditProductPage({
         mode="edit"
         defaultValues={{
           productName: product.productName,
+          modelNumber: product.modelNumber ?? undefined,
           categoryId: product.categoryId,
           brandId: product.brandId,
           price: product.price.toString(),

@@ -13,6 +13,7 @@ type Props = {
   mode: "create" | "edit";
   defaultValues?: {
     productName?: string;
+    modelNumber?: string;
     categoryId?: number | null;
     brandId?: number | null;
     brandName?: string;
@@ -72,6 +73,19 @@ export default function ProductForm({
           name="product_name"
           required
           defaultValue={defaultValues?.productName}
+          className="w-full border rounded px-3 py-2"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Model
+        </label>
+        <input
+          type="text"
+          name="model_number"
+          placeholder="e.g. FA-2200X"
+          defaultValue={defaultValues?.modelNumber}
           className="w-full border rounded px-3 py-2"
         />
       </div>

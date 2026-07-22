@@ -35,6 +35,7 @@ model Brand {
 model Product {
   id          Int       @id @default(autoincrement())
   productName String    @map("product_name")
+  modelNumber String?   @map("model_number")
   categoryId  Int?      @map("category_id")
   category    Category? @relation(fields: [categoryId], references: [id])
   brandId     Int?      @map("brand_id")

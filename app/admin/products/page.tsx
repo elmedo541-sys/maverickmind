@@ -27,6 +27,7 @@ export default async function AdminProductsPage() {
             <tr>
               <th className="px-4 py-3">Image</th>
               <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Model</th>
               <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Brand</th>
               <th className="px-4 py-3">Price</th>
@@ -55,6 +56,9 @@ export default async function AdminProductsPage() {
                   {p.productName}
                 </td>
                 <td className="px-4 py-3 text-gray-600">
+                  {p.modelNumber || "—"}
+                </td>
+                <td className="px-4 py-3 text-gray-600">
                   {p.category?.categoryName || "—"}
                 </td>
                 <td className="px-4 py-3 text-gray-600">
@@ -75,7 +79,7 @@ export default async function AdminProductsPage() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
                   No products yet.
                 </td>
               </tr>

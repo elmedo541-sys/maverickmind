@@ -44,10 +44,15 @@ export default async function ProductDetailPage({
           <h1 className="text-2xl font-bold text-navy mb-2">
             {product.productName}
           </h1>
-          <p className="text-gray-500 text-sm mb-4">
+          <p className="text-gray-500 text-sm mb-1">
             {product.category?.categoryName || "Uncategorized"}
             {product.brand ? ` · ${product.brand.brandName}` : ""}
           </p>
+          {product.modelNumber && (
+            <p className="text-gray-500 text-sm mb-4">
+              Model: {product.modelNumber}
+            </p>
+          )}
           <p className="text-2xl font-bold text-blue-700 mb-4">
             ₱{Number(product.price).toFixed(2)}
           </p>

@@ -19,11 +19,16 @@ export default function ProductCard({
   return (
     <Link
       href={`/products/${id}`}
-      className="block bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden"
+      className="block bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300 overflow-hidden transform hover:-translate-y-1 group"
     >
-      <div className="relative w-full h-44 bg-gray-100">
+      <div className="relative w-full h-44 bg-gray-100 overflow-hidden">
         {image ? (
-          <Image src={image} alt={productName} fill className="object-cover" />
+          <Image
+            src={image}
+            alt={productName}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
             No image

@@ -48,28 +48,32 @@ export default function ProductsDropdown({
         </svg>
       </button>
 
-      {open && (
-        <div className="absolute left-0 mt-2 w-56 bg-white text-navy rounded-lg shadow-lg py-2 z-50">
+      <div
+        className={`absolute left-0 mt-2 w-56 bg-white text-navy rounded-lg shadow-lg py-2 z-50 origin-top transition-all duration-200 ${
+          open
+            ? "opacity-100 scale-100 pointer-events-auto"
+            : "opacity-0 scale-95 pointer-events-none"
+        }`}
+      >
+        <Link
+          href="/products"
+          onClick={() => setOpen(false)}
+          className="block px-4 py-2 text-sm font-semibold hover:bg-gray-50"
+        >
+          All Products
+        </Link>
+        {categories.length > 0 && <div className="border-t my-1" />}
+        {categories.map((c) => (
           <Link
-            href="/products"
+            key={c.id}
+            href={`/products?category=${c.id}`}
             onClick={() => setOpen(false)}
-            className="block px-4 py-2 text-sm font-semibold hover:bg-gray-50"
+            className="block px-4 py-2 text-sm hover:bg-gray-50"
           >
-            All Products
+            {c.categoryName}
           </Link>
-          {categories.length > 0 && <div className="border-t my-1" />}
-          {categories.map((c) => (
-            <Link
-              key={c.id}
-              href={`/products?category=${c.id}`}
-              onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm hover:bg-gray-50"
-            >
-              {c.categoryName}
-            </Link>
-          ))}
-        </div>
-      )}
+        ))}
+      </div>
     </li>
   );
 }

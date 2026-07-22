@@ -39,10 +39,10 @@ export default async function AdminProductsPage() {
             {products.map((p) => (
               <tr key={p.id} className="border-t">
                 <td className="px-4 py-3">
-                  {p.image ? (
+                  {p.images[0] ? (
                     <div className="relative w-12 h-12">
                       <Image
-                        src={p.image}
+                        src={p.images[0]}
                         alt={p.productName}
                         fill
                         className="object-cover rounded"

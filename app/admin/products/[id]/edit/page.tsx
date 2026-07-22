@@ -37,7 +37,7 @@ export default async function EditProductPage({
           price: product.price.toString(),
           quantity: product.quantity,
           description: product.description,
-          image: product.image,
+          images: product.images,
         }}
       />
     </div>

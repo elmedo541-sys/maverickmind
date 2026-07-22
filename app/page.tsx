@@ -80,7 +80,7 @@ export default async function HomePage() {
                 id={p.id}
                 productName={p.productName}
                 price={p.price.toString()}
-                image={p.image}
+                image={p.images[0] ?? null}
                 categoryName={p.category?.categoryName}
               />
             ))}

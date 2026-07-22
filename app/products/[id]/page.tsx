@@ -1,7 +1,32 @@
 import { prisma } from "@/lib/prisma";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import ProductGallery from "@/components/ProductGallery";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const id = Number(params.id);
+  if (Number.isNaN(id)) return {};
+
+  const product = await prisma.product.findUnique({ where: { id } });
+  if (!product) return {};
+
+  const description = product.description.slice(0, 155);
+
+  return {
+    title: product.productName,
+    description,
+    openGraph: {
+      title: `${product.productName} | MaverickMind`,
+      description,
+      images: product.images.length > 0 ? [product.images[0]] : [],
+    },
+  };
+}
 
 export default async function ProductDetailPage({
   params,
@@ -25,20 +50,7 @@ export default async function ProductDetailPage({
       </Link>
 
       <div className="grid md:grid-cols-2 gap-10 mt-6">
-        <div className="relative w-full h-80 bg-white rounded-lg shadow-sm">
-          {product.image ? (
-            <Image
-              src={product.image}
-              alt={product.productName}
-              fill
-              className="object-contain p-4"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
-              No image available
-            </div>
-          )}
-        </div>
+        <ProductGallery images={product.images} productName={product.productName} />
 
         <div>
           <h1 className="text-2xl font-bold text-navy mb-2">

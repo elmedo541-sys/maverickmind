@@ -42,8 +42,8 @@ model Product {
   brand       Brand?    @relation(fields: [brandId], references: [id])
   price       Decimal   @db.Decimal(10, 2)
   quantity    Int       @default(0)
-  description String    @db.Text
-  image       String?
+description String    @db.Text
+  images      String[]  @default([])
   createdAt   DateTime  @default(now()) @map("created_at")
 
   @@map("products")

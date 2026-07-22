@@ -7,19 +7,24 @@ import { redirect } from "next/navigation";
 
 const ALLOWED_EXT = ["jpg", "jpeg", "png", "webp"];
 
-async function uploadImageIfProvided(file: File | null): Promise<string | null> {
-  if (!file || file.size === 0) return null;
+async function uploadImages(files: File[]): Promise<string[]> {
+  const validFiles = files.filter((f) => f && f.size > 0);
+  if (validFiles.length === 0) return [];
 
-  const ext = file.name.split(".").pop()?.toLowerCase() || "";
-  if (!ALLOWED_EXT.includes(ext)) {
-    throw new Error("Only JPG, JPEG, PNG and WEBP images are allowed.");
+  for (const file of validFiles) {
+    const ext = file.name.split(".").pop()?.toLowerCase() || "";
+    if (!ALLOWED_EXT.includes(ext)) {
+      throw new Error("Only JPG, JPEG, PNG and WEBP images are allowed.");
+    }
   }
 
-  const blob = await put(`products/${Date.now()}-${file.name}`, file, {
-    access: "public",
-  });
+  const uploaded = await Promise.all(
+    validFiles.map((file) =>
+      put(`products/${Date.now()}-${file.name}`, file, { access: "public" })
+    )
+  );
 
-  return blob.url;
+  return uploaded.map((b) => b.url);
 }
 
 export type ProductFormState = { error: string };
@@ -30,12 +35,12 @@ export async function createProduct(
 ): Promise<ProductFormState> {
   const productName = (formData.get("product_name") as string || "").trim();
   const modelNumber = (formData.get("model_number") as string || "").trim() || null;
-  const categoryId = Number(formData.get("category_id"));
+  const categoryName = (formData.get("category_name") as string || "").trim();
   const brandName = (formData.get("brand_name") as string || "").trim();
   const price = formData.get("price") as string;
   const quantity = Number(formData.get("quantity") || 0);
   const description = (formData.get("description") as string || "").trim();
-  const file = formData.get("image") as File | null;
+  const files = formData.getAll("images") as File[];
 
   if (!productName || !price || !description) {
     return { error: "Please fill in all required fields." };
@@ -44,6 +49,16 @@ export async function createProduct(
   const existing = await prisma.product.findFirst({ where: { productName } });
   if (existing) {
     return { error: "A product with this name already exists." };
+  }
+
+  let categoryId: number | null = null;
+  if (categoryName) {
+    const category = await prisma.category.upsert({
+      where: { categoryName },
+      update: {},
+      create: { categoryName },
+    });
+    categoryId = category.id;
   }
 
   let brandId: number | null = null;
@@ -56,9 +71,9 @@ export async function createProduct(
     brandId = brand.id;
   }
 
-  let imageUrl: string | null = null;
+  let images: string[] = [];
   try {
-    imageUrl = await uploadImageIfProvided(file);
+    images = await uploadImages(files);
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -72,7 +87,7 @@ export async function createProduct(
       price,
       quantity,
       description,
-      image: imageUrl,
+      images,
     },
   });
 
@@ -93,53 +108,12 @@ export async function updateProduct(
   const price = formData.get("price") as string;
   const quantity = Number(formData.get("quantity") || 0);
   const description = (formData.get("description") as string || "").trim();
-  const file = formData.get("image") as File | null;
+  const files = formData.getAll("images") as File[];
 
   if (!productName || !price || !description) {
     return { error: "Please fill in all required fields." };
   }
 
-  let imageUrl: string | undefined;
+  let newImages: string[] = [];
   try {
-    const uploaded = await uploadImageIfProvided(file);
-    if (uploaded) imageUrl = uploaded;
-  } catch (e) {
-    return { error: (e as Error).message };
-  }
-
-  await prisma.product.update({
-    where: { id },
-    data: {
-      productName,
-      modelNumber,
-      categoryId: categoryId || null,
-      brandId,
-      price,
-      quantity,
-      description,
-      ...(imageUrl ? { image: imageUrl } : {}),
-    },
-  });
-
-  revalidatePath("/admin/products");
-  revalidatePath("/products");
-  revalidatePath(`/products/${id}`);
-  redirect("/admin/products");
-}
-
-export async function deleteProduct(id: number) {
-  const product = await prisma.product.findUnique({ where: { id } });
-
-  if (product?.image) {
-    try {
-      await del(product.image);
-    } catch {
-      // ignore blob deletion errors (e.g. already removed)
-    }
-  }
-
-  await prisma.product.delete({ where: { id } });
-
-  revalidatePath("/admin/products");
-  revalidatePath("/products");
-}
+    newImages = await

@@ -21,7 +21,7 @@ type Props = {
     price?: string;
     quantity?: number;
     description?: string;
-    image?: string | null;
+    images?: string[];
   };
 };
 
@@ -217,22 +217,33 @@ export default function ProductForm({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Image {mode === "edit" && "(leave blank to keep current image)"}
+          Photos {mode === "edit" && "(uploading new photos replaces all current ones)"}
         </label>
-        {defaultValues?.image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={defaultValues.image}
-            alt="Current"
-            className="w-24 h-24 object-cover rounded mb-2"
-          />
+        {defaultValues?.images && defaultValues.images.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-2">
+            {defaultValues.images.map((url) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={url}
+                src={url}
+                alt="Current"
+                className="w-20 h-20 object-cover rounded border"
+              />
+            ))}
+          </div>
         )}
         <input
           type="file"
-          name="image"
+          name="images"
           accept=".jpg,.jpeg,.png,.webp"
+          multiple
           className="w-full border rounded px-3 py-2 bg-white"
         />
+        <p className="text-xs text-gray-500 mt-1">
+          You can select multiple photos at once. The first photo is used as
+          the main thumbnail; all photos show in a gallery on the product
+          page.
+        </p>
       </div>
 
       <SubmitButton mode={mode} />

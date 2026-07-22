@@ -2,16 +2,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "./DeleteButton";
+import FeaturedButton from "./FeaturedButton";
+import type { Prisma } from "@prisma/client";
 
-export default async function AdminProductsPage() {
-  const products = await prisma.product.findMany({
-    include: { category: true, brand: true },
-    orderBy: { id: "desc" },
-  });
+export default async function AdminProductsPage({
+  searchParams,
+}: {
+  searchParams: { search?: string; category?: string };
+}) {
+  const search = searchParams.search?.trim() || "";
+  const categoryId = searchParams.category ? Number(searchParams.category) : undefined;
+
+  const where: Prisma.ProductWhereInput = {
+    ...(search ? { productName: { contains: search, mode: "insensitive" } } : {}),
+    ...(categoryId ? { categoryId } : {}),
+  };
+
+  const [products, categories] = await Promise.all([
+    prisma.product.findMany({
+      where,
+      include: { category: true, brand: true },
+      orderBy: { id: "desc" },
+    }),
+    prisma.category.findMany({ orderBy: { categoryName: "asc" } }),
+  ]);
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-navy">Products</h1>
         <Link
           href="/admin/products/add"
@@ -20,6 +38,34 @@ export default async function AdminProductsPage() {
           + Add Product
         </Link>
       </div>
+
+      <form className="grid sm:grid-cols-4 gap-3 mb-6 bg-white p-4 rounded-lg shadow-sm">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search by product name..."
+          defaultValue={search}
+          className="border rounded px-3 py-2 text-sm sm:col-span-2"
+        />
+        <select
+          name="category"
+          defaultValue={searchParams.category || ""}
+          className="border rounded px-3 py-2 text-sm"
+        >
+          <option value="">All Categories</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.categoryName}
+            </option>
+          ))}
+        </select>
+        <button
+          type="submit"
+          className="bg-navy text-white rounded px-4 py-2 text-sm font-medium hover:bg-navyLight"
+        >
+          Search
+        </button>
+      </form>
 
       <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
         <table className="w-full text-sm">
@@ -32,6 +78,7 @@ export default async function AdminProductsPage() {
               <th className="px-4 py-3">Brand</th>
               <th className="px-4 py-3">Price</th>
               <th className="px-4 py-3">Qty</th>
+              <th className="px-4 py-3 text-center">Featured</th>
               <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -66,6 +113,9 @@ export default async function AdminProductsPage() {
                 </td>
                 <td className="px-4 py-3">₱{Number(p.price).toFixed(2)}</td>
                 <td className="px-4 py-3">{p.quantity}</td>
+                <td className="px-4 py-3 text-center">
+                  <FeaturedButton id={p.id} featured={p.featured} />
+                </td>
                 <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
                   <Link
                     href={`/admin/products/${p.id}/edit`}
@@ -79,8 +129,8 @@ export default async function AdminProductsPage() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
-                  No products yet.
+                <td colSpan={9} className="px-4 py-8 text-center text-gray-500">
+                  No products match your search.
                 </td>
               </tr>
             )}

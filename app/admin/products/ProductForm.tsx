@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
+import { useState, useRef, useEffect } from "react";
 import type { ProductFormState } from "./actions";
 
 type Category = { id: number; categoryName: string };
@@ -22,6 +23,7 @@ type Props = {
     quantity?: number;
     description?: string;
     images?: string[];
+    featured?: boolean;
   };
 };
 
@@ -52,6 +54,36 @@ export default function ProductForm({
   defaultValues,
 }: Props) {
   const [state, formAction] = useFormState(action, initialState);
+
+  const [keptUrls, setKeptUrls] = useState<string[]>(defaultValues?.images ?? []);
+  const [removedUrls, setRemovedUrls] = useState<string[]>([]);
+  const [stagedFiles, setStagedFiles] = useState<File[]>([]);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!fileInputRef.current) return;
+    const dataTransfer = new DataTransfer();
+    stagedFiles.forEach((file) => dataTransfer.items.add(file));
+    fileInputRef.current.files = dataTransfer.files;
+  }, [stagedFiles]);
+
+  function handleFilesChosen(e: React.ChangeEvent<HTMLInputElement>) {
+    const picked = Array.from(e.target.files || []);
+    if (picked.length === 0) return;
+    setStagedFiles((prev) => [...prev, ...picked]);
+  }
+
+  function removeKept(url: string) {
+    setKeptUrls((prev) => prev.filter((u) => u !== url));
+    setRemovedUrls((prev) => [...prev, url]);
+  }
+
+  function removeStaged(index: number) {
+    setStagedFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  const totalPhotoCount = keptUrls.length + stagedFiles.length;
 
   return (
     <form
@@ -215,34 +247,92 @@ export default function ProductForm({
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Photos {mode === "edit" && "(uploading new photos replaces all current ones)"}
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="featured"
+          name="featured"
+          defaultChecked={defaultValues?.featured}
+          className="w-4 h-4"
+        />
+        <label htmlFor="featured" className="text-sm font-medium text-gray-700">
+          Feature this product on the homepage
         </label>
-        {defaultValues?.images && defaultValues.images.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-2">
-            {defaultValues.images.map((url) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={url}
-                src={url}
-                alt="Current"
-                className="w-20 h-20 object-cover rounded border"
-              />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Photos {totalPhotoCount > 0 && `(${totalPhotoCount})`}
+        </label>
+
+        {totalPhotoCount > 0 && (
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3">
+            {keptUrls.map((url, i) => (
+              <div key={url} className="relative">
+                <span className="absolute top-1 left-1 bg-navy text-white text-xs px-1.5 py-0.5 rounded z-10">
+                  {i + 1}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeKept(url)}
+                  className="absolute top-1 right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full z-10 leading-none"
+                  title="Delete this photo"
+                >
+                  ×
+                </button>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={url}
+                  alt={`Photo ${i + 1}`}
+                  className="w-full h-24 object-cover rounded border"
+                />
+              </div>
             ))}
+            {stagedFiles.map((file, i) => {
+              const previewUrl = URL.createObjectURL(file);
+              const number = keptUrls.length + i + 1;
+              return (
+                <div key={`${file.name}-${i}`} className="relative">
+                  <span className="absolute top-1 left-1 bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded z-10">
+                    {number} new
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removeStaged(i)}
+                    className="absolute top-1 right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full z-10 leading-none"
+                    title="Remove this photo"
+                  >
+                    ×
+                  </button>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={previewUrl}
+                    alt={`New photo ${number}`}
+                    className="w-full h-24 object-cover rounded border"
+                  />
+                </div>
+              );
+            })}
           </div>
         )}
+
+        {removedUrls.map((url) => (
+          <input key={url} type="hidden" name="remove_images" value={url} />
+        ))}
+
         <input
+          ref={fileInputRef}
           type="file"
           name="images"
           accept=".jpg,.jpeg,.png,.webp"
           multiple
+          onChange={handleFilesChosen}
           className="w-full border rounded px-3 py-2 bg-white"
         />
         <p className="text-xs text-gray-500 mt-1">
-          You can select multiple photos at once. The first photo is used as
-          the main thumbnail; all photos show in a gallery on the product
-          page.
+          Add photos any time — click the file picker again to add more. Click
+          the × on a photo to delete it. To replace a photo, delete it and
+          add a new one.
         </p>
       </div>
 

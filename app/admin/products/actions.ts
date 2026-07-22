@@ -40,6 +40,7 @@ export async function createProduct(
   const price = formData.get("price") as string;
   const quantity = Number(formData.get("quantity") || 0);
   const description = (formData.get("description") as string || "").trim();
+  const featured = formData.get("featured") === "on";
   const files = formData.getAll("images") as File[];
 
   if (!productName || !price || !description) {
@@ -88,11 +89,13 @@ export async function createProduct(
       quantity,
       description,
       images,
+      featured,
     },
   });
 
   revalidatePath("/admin/products");
   revalidatePath("/products");
+  revalidatePath("/");
   redirect("/admin/products");
 }
 
@@ -108,12 +111,26 @@ export async function updateProduct(
   const price = formData.get("price") as string;
   const quantity = Number(formData.get("quantity") || 0);
   const description = (formData.get("description") as string || "").trim();
+  const featured = formData.get("featured") === "on";
   const files = formData.getAll("images") as File[];
+  const removeUrls = formData.getAll("remove_images") as string[];
 
   if (!productName || !price || !description) {
     return { error: "Please fill in all required fields." };
   }
 
+  const existing = await prisma.product.findUnique({ where: { id } });
+  if (!existing) {
+    return { error: "Product not found." };
+  }
+
+  // Remove any photos the admin marked for deletion
+  if (removeUrls.length > 0) {
+    await Promise.all(removeUrls.map((url) => del(url).catch(() => {})));
+  }
+  const keptImages = existing.images.filter((url) => !removeUrls.includes(url));
+
+  // Upload any newly added photos
   let newImages: string[] = [];
   try {
     newImages = await uploadImages(files);
@@ -121,14 +138,7 @@ export async function updateProduct(
     return { error: (e as Error).message };
   }
 
-  if (newImages.length > 0) {
-    const existing = await prisma.product.findUnique({ where: { id } });
-    if (existing?.images?.length) {
-      await Promise.all(
-        existing.images.map((url) => del(url).catch(() => {}))
-      );
-    }
-  }
+  const finalImages = [...keptImages, ...newImages];
 
   await prisma.product.update({
     where: { id },
@@ -140,13 +150,15 @@ export async function updateProduct(
       price,
       quantity,
       description,
-      ...(newImages.length > 0 ? { images: newImages } : {}),
+      images: finalImages,
+      featured,
     },
   });
 
   revalidatePath("/admin/products");
   revalidatePath("/products");
   revalidatePath(`/products/${id}`);
+  revalidatePath("/");
   redirect("/admin/products");
 }
 
@@ -163,4 +175,18 @@ export async function deleteProduct(id: number) {
 
   revalidatePath("/admin/products");
   revalidatePath("/products");
+  revalidatePath("/");
+}
+
+export async function toggleFeatured(id: number) {
+  const product = await prisma.product.findUnique({ where: { id } });
+  if (!product) return;
+
+  await prisma.product.update({
+    where: { id },
+    data: { featured: !product.featured },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/");
 }

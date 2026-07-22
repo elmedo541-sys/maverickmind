@@ -5,6 +5,7 @@ import ProductCard from "@/components/ProductCard";
 export default async function HomePage() {
   const [products, services] = await Promise.all([
     prisma.product.findMany({
+      where: { featured: true },
       orderBy: { id: "desc" },
       take: 6,
       include: { category: true },
@@ -42,28 +43,6 @@ export default async function HomePage() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-14">
-        <h2 className="text-2xl font-bold text-navy mb-6 text-center">
-          Why Choose MaverickMind
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            "Quality Products",
-            "Professional Installation",
-            "Technical Support",
-            "Customer Satisfaction",
-          ].map((reason) => (
-            <div
-              key={reason}
-              className="bg-white rounded-lg shadow-sm p-5 text-center"
-            >
-              <p className="text-blue-700 text-xl mb-2">✔</p>
-              <p className="font-semibold text-navy text-sm">{reason}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-6 py-14">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-navy">Featured Products</h2>
           <Link href="/products" className="text-blue-700 text-sm font-medium">
@@ -71,7 +50,10 @@ export default async function HomePage() {
           </Link>
         </div>
         {products.length === 0 ? (
-          <p className="text-gray-500">No products yet.</p>
+          <p className="text-gray-500">
+            No featured products yet. Mark products as featured from the
+            admin panel to show them here.
+          </p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
             {products.map((p) => (

@@ -3,17 +3,13 @@ import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
 
 export default async function HomePage() {
-  const [products, services, categories] = await Promise.all([
+  const [products, services] = await Promise.all([
     prisma.product.findMany({
       orderBy: { id: "desc" },
       take: 6,
       include: { category: true },
     }),
     prisma.service.findMany({ orderBy: { id: "desc" }, take: 4 }),
-    prisma.category.findMany({
-      orderBy: { categoryName: "asc" },
-      include: { _count: { select: { products: true } } },
-    }),
   ]);
 
   return (
@@ -45,30 +41,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {categories.length > 0 && (
-        <section className="max-w-6xl mx-auto px-6 py-14">
-          <h2 className="text-2xl font-bold text-navy mb-6">
-            Shop by Category
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categories.map((c) => (
-              <Link
-                key={c.id}
-                href={`/products?category=${c.id}`}
-                className="bg-white rounded-lg shadow-sm hover:shadow-md transition p-5 text-center"
-              >
-                <p className="font-semibold text-navy text-sm">
-                  {c.categoryName}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {c._count.products}{" "}
-                  {c._count.products === 1 ? "product" : "products"}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="max-w-6xl mx-auto px-6 py-14">
+        <h2 className="text-2xl font-bold text-navy mb-6 text-center">
+          Why Choose MaverickMind
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[
+            "Quality Products",
+            "Professional Installation",
+            "Technical Support",
+            "Customer Satisfaction",
+          ].map((reason) => (
+            <div
+              key={reason}
+              className="bg-white rounded-lg shadow-sm p-5 text-center"
+            >
+              <p className="text-blue-700 text-xl mb-2">✔</p>
+              <p className="font-semibold text-navy text-sm">{reason}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="max-w-6xl mx-auto px-6 py-14">
         <div className="flex justify-between items-center mb-6">

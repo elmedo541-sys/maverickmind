@@ -116,4 +116,51 @@ export async function updateProduct(
 
   let newImages: string[] = [];
   try {
-    newImages = await
+    newImages = await uploadImages(files);
+  } catch (e) {
+    return { error: (e as Error).message };
+  }
+
+  if (newImages.length > 0) {
+    const existing = await prisma.product.findUnique({ where: { id } });
+    if (existing?.images?.length) {
+      await Promise.all(
+        existing.images.map((url) => del(url).catch(() => {}))
+      );
+    }
+  }
+
+  await prisma.product.update({
+    where: { id },
+    data: {
+      productName,
+      modelNumber,
+      categoryId: categoryId || null,
+      brandId,
+      price,
+      quantity,
+      description,
+      ...(newImages.length > 0 ? { images: newImages } : {}),
+    },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/products");
+  revalidatePath(`/products/${id}`);
+  redirect("/admin/products");
+}
+
+export async function deleteProduct(id: number) {
+  const product = await prisma.product.findUnique({ where: { id } });
+
+  if (product?.images?.length) {
+    await Promise.all(
+      product.images.map((url) => del(url).catch(() => {}))
+    );
+  }
+
+  await prisma.product.delete({ where: { id } });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/products");
+}

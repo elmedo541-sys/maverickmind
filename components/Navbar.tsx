@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import ProductsDropdown from "./ProductsDropdown";
+import Logo from "./Logo";
 
 const links = [
   { href: "/", label: "Home" },
@@ -17,8 +18,8 @@ export default async function Navbar() {
   return (
     <header className="bg-navy text-white">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
-        <Link href="/" className="text-xl font-bold tracking-wide">
-          MaverickMind
+        <Link href="/">
+          <Logo />
         </Link>
         <nav>
           <ul className="flex items-center gap-6 text-sm font-medium">

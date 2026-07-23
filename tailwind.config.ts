@@ -20,6 +20,11 @@ const config: Config = {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        logoPop: {
+          "0%": { opacity: "0", transform: "scale(0.5)" },
+          "70%": { opacity: "1", transform: "scale(1.08)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         "fade-in-up": "fadeInUp 0.6s ease-out both",

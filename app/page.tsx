@@ -9,7 +9,7 @@ export default async function HomePage() {
       where: { featured: true },
       orderBy: { id: "desc" },
       take: 6,
-      include: { category: true },
+      include: { category: true, brand: true },
     }),
     prisma.service.findMany({ orderBy: { id: "desc" }, take: 4 }),
   ]);
@@ -75,6 +75,8 @@ export default async function HomePage() {
                   price={p.price.toString()}
                   image={p.images[0] ?? null}
                   categoryName={p.category?.categoryName}
+                  brandName={p.brand?.brandName}
+                  quantity={p.quantity}
                 />
               </FadeIn>
             ))}

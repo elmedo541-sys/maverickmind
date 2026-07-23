@@ -8,6 +8,9 @@ type ProductCardProps = {
   price: number | string;
   image: string | null;
   categoryName?: string | null;
+  brandName?: string | null;
+  quantity?: number;
+  featured?: boolean;
 };
 
 export default function ProductCard({
@@ -16,7 +19,13 @@ export default function ProductCard({
   price,
   image,
   categoryName,
+  brandName,
+  quantity,
+  featured,
 }: ProductCardProps) {
+  const showLowStock = typeof quantity === "number" && quantity > 0 && quantity <= 5;
+  const showOutOfStock = typeof quantity === "number" && quantity === 0;
+
   return (
     <Link
       href={`/products/${id}`}
@@ -35,13 +44,37 @@ export default function ProductCard({
             No image
           </div>
         )}
+        {featured && (
+          <span className="absolute top-2 left-2 bg-blue-600 text-white text-[11px] font-medium px-2 py-1 rounded">
+            Featured
+          </span>
+        )}
+        {showOutOfStock && (
+          <span className="absolute top-2 right-2 bg-gray-700 text-white text-[11px] font-medium px-2 py-1 rounded">
+            Out of stock
+          </span>
+        )}
+        {showLowStock && (
+          <span className="absolute top-2 right-2 bg-amber-500 text-white text-[11px] font-medium px-2 py-1 rounded">
+            {quantity} left
+          </span>
+        )}
       </div>
       <div className="p-4">
-        {categoryName && (
-          <p className="text-xs text-gray-500 mb-1">{categoryName}</p>
+        {(categoryName || brandName) && (
+          <p className="text-xs text-gray-500 mb-1">
+            {categoryName}
+            {categoryName && brandName ? " · " : ""}
+            {brandName}
+          </p>
         )}
-        <h3 className="font-semibold text-navy">{productName}</h3>
-        <p className="text-blue-700 font-bold mt-1">₱{formatPrice(price)}</p>
+        <h3 className="font-semibold text-navy line-clamp-2">{productName}</h3>
+        <div className="flex items-center justify-between mt-1">
+          <p className="text-blue-700 font-bold">₱{formatPrice(price)}</p>
+          <span className="text-xs text-gray-400 group-hover:text-blue-700 transition">
+            View &rarr;
+          </span>
+        </div>
       </div>
     </Link>
   );

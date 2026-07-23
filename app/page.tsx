@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
+import HeroCarousel from "@/components/HeroCarousel";
 
 export default async function HomePage() {
   const [products, services] = await Promise.all([
@@ -16,38 +17,50 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="bg-navy text-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in-up">
-            Complete Security &amp; Communication Solutions
-          </h1>
-          <p
-            className="text-gray-200 max-w-2xl mx-auto mb-8 animate-fade-in-up"
-            style={{ animationDelay: "120ms" }}
-          >
-            MaverickMind supplies fire alarm systems, CCTV, PoE switches,
-            video recorders, and cabling &amp; wiring, plus professional
-            installation services.
-          </p>
-          <div
-            className="flex flex-wrap justify-center gap-4 animate-fade-in-up"
-            style={{ animationDelay: "240ms" }}
-          >
-            <Link
-              href="/products"
-              className="bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+      {products.length > 0 ? (
+        <HeroCarousel
+          slides={products.slice(0, 5).map((p) => ({
+            id: p.id,
+            productName: p.productName,
+            price: p.price.toString(),
+            image: p.images[0] ?? null,
+            categoryName: p.category?.categoryName,
+          }))}
+        />
+      ) : (
+        <section className="bg-navy text-white overflow-hidden">
+          <div className="max-w-6xl mx-auto px-6 py-20 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in-up">
+              Complete Security &amp; Communication Solutions
+            </h1>
+            <p
+              className="text-gray-200 max-w-2xl mx-auto mb-8 animate-fade-in-up"
+              style={{ animationDelay: "120ms" }}
             >
-              Browse Products
-            </Link>
-            <Link
-              href="/contact"
-              className="border border-white px-6 py-3 rounded font-semibold hover:bg-white hover:text-navy transition transform hover:scale-105"
+              MaverickMind supplies fire alarm systems, CCTV, PoE switches,
+              video recorders, and cabling &amp; wiring, plus professional
+              installation services.
+            </p>
+            <div
+              className="flex flex-wrap justify-center gap-4 animate-fade-in-up"
+              style={{ animationDelay: "240ms" }}
             >
-              Get in Touch
-            </Link>
+              <Link
+                href="/products"
+                className="bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+              >
+                Browse Products
+              </Link>
+              <Link
+                href="/contact"
+                className="border border-white px-6 py-3 rounded font-semibold hover:bg-white hover:text-navy transition transform hover:scale-105"
+              >
+                Get in Touch
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="max-w-6xl mx-auto px-6 py-14">
         <FadeIn>

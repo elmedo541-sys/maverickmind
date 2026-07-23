@@ -83,7 +83,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative h-[420px] md:h-[480px]">
+      <div className="relative w-full aspect-[21/9] min-h-[220px] max-h-[560px]">
         {/* Slide 0: animated brand intro */}
         <div
           className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
@@ -109,7 +109,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
                   src={slide.image}
                   alt={slide.title || "Slide"}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                 />
                 {hasText && (
                   <div

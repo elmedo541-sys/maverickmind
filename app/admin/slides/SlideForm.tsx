@@ -137,8 +137,9 @@ export default function SlideForm({ action, mode, defaultValues }: Props) {
           className="w-full border rounded px-3 py-2 bg-white"
         />
         <p className="text-xs text-gray-500 mt-1">
-          Recommended: a wide photo (landscape), at least 1200px wide, for best
-          quality on the homepage banner.
+          Recommended: a wide banner photo, roughly 21:9 ratio (e.g. 1920×820px),
+          so it fills the slideshow edge-to-edge without cropping important
+          parts of the image.
         </p>
       </div>
 

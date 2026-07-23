@@ -104,12 +104,19 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
                 slideIndex === active ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}
             >
-              <div className="relative w-full h-full bg-navy">
+              <div className="relative w-full h-full bg-navy overflow-hidden">
+                <Image
+                  src={slide.image}
+                  alt=""
+                  aria-hidden="true"
+                  fill
+                  className="object-cover scale-125 blur-2xl opacity-70"
+                />
                 <Image
                   src={slide.image}
                   alt={slide.title || "Slide"}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
                 {hasText && (
                   <div

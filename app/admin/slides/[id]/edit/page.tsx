@@ -23,7 +23,7 @@ export default async function EditSlidePage({
         action={boundUpdate}
         mode="edit"
         defaultValues={{
-          title: slide.title,
+          title: slide.title ?? undefined,
           subtitle: slide.subtitle ?? undefined,
           linkUrl: slide.linkUrl ?? undefined,
           linkLabel: slide.linkLabel ?? undefined,

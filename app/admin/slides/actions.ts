@@ -28,16 +28,12 @@ export async function createSlide(
   _prevState: SlideFormState,
   formData: FormData
 ): Promise<SlideFormState> {
-  const title = (formData.get("title") as string || "").trim();
+  const title = (formData.get("title") as string || "").trim() || null;
   const subtitle = (formData.get("subtitle") as string || "").trim() || null;
   const linkUrl = (formData.get("link_url") as string || "").trim() || null;
   const linkLabel = (formData.get("link_label") as string || "").trim() || null;
   const active = formData.get("active") === "on";
   const file = formData.get("image") as File | null;
-
-  if (!title) {
-    return { error: "Please enter a title." };
-  }
 
   let imageUrl: string | null = null;
   try {
@@ -74,16 +70,12 @@ export async function updateSlide(
   _prevState: SlideFormState,
   formData: FormData
 ): Promise<SlideFormState> {
-  const title = (formData.get("title") as string || "").trim();
+  const title = (formData.get("title") as string || "").trim() || null;
   const subtitle = (formData.get("subtitle") as string || "").trim() || null;
   const linkUrl = (formData.get("link_url") as string || "").trim() || null;
   const linkLabel = (formData.get("link_label") as string || "").trim() || null;
   const active = formData.get("active") === "on";
   const file = formData.get("image") as File | null;
-
-  if (!title) {
-    return { error: "Please enter a title." };
-  }
 
   let imageUrl: string | undefined;
   try {

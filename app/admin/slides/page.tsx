@@ -55,14 +55,16 @@ export default async function AdminSlidesPage() {
                     <div className="relative w-16 h-12">
                       <Image
                         src={s.image}
-                        alt={s.title}
+                        alt={s.title || "Slide"}
                         fill
                         className="object-cover rounded"
                       />
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <p className="font-medium text-navy">{s.title}</p>
+                    <p className="font-medium text-navy">
+                      {s.title || <span className="text-gray-400 italic">No title (image only)</span>}
+                    </p>
                     {s.subtitle && (
                       <p className="text-gray-500 text-xs">{s.subtitle}</p>
                     )}

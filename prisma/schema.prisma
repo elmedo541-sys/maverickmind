@@ -62,7 +62,7 @@ model Service {
 
 model Slide {
   id        Int      @id @default(autoincrement())
-  title     String
+  title     String?
   subtitle  String?
   image     String
   linkUrl   String?  @map("link_url")

@@ -48,16 +48,18 @@ export default function SlideForm({ action, mode, defaultValues }: Props) {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Title
+          Title (optional)
         </label>
         <input
           type="text"
           name="title"
-          required
           placeholder="e.g. New CCTV Camera Series"
           defaultValue={defaultValues?.title}
           className="w-full border rounded px-3 py-2"
         />
+        <p className="text-xs text-gray-500 mt-1">
+          Leave blank to show just the full image with no text overlay.
+        </p>
       </div>
 
       <div>

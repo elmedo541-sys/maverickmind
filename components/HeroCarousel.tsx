@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type Slide = {
   id: number;
-  title: string;
+  title?: string | null;
   subtitle?: string | null;
   image: string;
   linkUrl?: string | null;
@@ -96,6 +96,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
         {/* Slides 1..N: admin-managed photo slides */}
         {slides.map((slide, i) => {
           const slideIndex = i + 1;
+          const hasText = Boolean(slide.title);
           return (
             <div
               key={slide.id}
@@ -103,44 +104,48 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
                 slideIndex === active ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}
             >
-              <div className="relative w-full h-full">
+              <div className="relative w-full h-full bg-navy">
                 <Image
                   src={slide.image}
-                  alt={slide.title}
+                  alt={slide.title || "Slide"}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, rgba(11,31,58,0.92) 0%, rgba(11,31,58,0.65) 45%, rgba(11,31,58,0.25) 100%)",
-                  }}
-                />
+                {hasText && (
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, rgba(11,31,58,0.85) 0%, rgba(11,31,58,0.55) 45%, rgba(11,31,58,0) 100%)",
+                    }}
+                  />
+                )}
               </div>
 
-              <div className="absolute inset-0 flex items-center">
-                <div className="max-w-6xl mx-auto px-6 w-full">
-                  <div className="max-w-md text-white">
-                    <h2 className="text-2xl md:text-4xl font-bold mb-3 leading-tight">
-                      {slide.title}
-                    </h2>
-                    {slide.subtitle && (
-                      <p className="text-lg text-blue-200 mb-6">
-                        {slide.subtitle}
-                      </p>
-                    )}
-                    {slide.linkUrl && (
-                      <Link
-                        href={slide.linkUrl}
-                        className="inline-block bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
-                      >
-                        {slide.linkLabel || "Learn More"}
-                      </Link>
-                    )}
+              {hasText && (
+                <div className="absolute inset-0 flex items-center">
+                  <div className="max-w-6xl mx-auto px-6 w-full">
+                    <div className="max-w-md text-white">
+                      <h2 className="text-2xl md:text-4xl font-bold mb-3 leading-tight">
+                        {slide.title}
+                      </h2>
+                      {slide.subtitle && (
+                        <p className="text-lg text-blue-200 mb-6">
+                          {slide.subtitle}
+                        </p>
+                      )}
+                      {slide.linkUrl && (
+                        <Link
+                          href={slide.linkUrl}
+                          className="inline-block bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+                        >
+                          {slide.linkLabel || "Learn More"}
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           );
         })}

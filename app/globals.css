@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 body {
-  background: #f5f5f5;
+  background-color: #f8f9fb;
+  background-image: radial-gradient(circle, #d7dce4 1px, transparent 1px);
+  background-size: 22px 22px;
   color: #333;
 }

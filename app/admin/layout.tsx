@@ -16,34 +16,33 @@ export default async function AdminLayout({
 }) {
   const session = await getAdminSession();
 
-  // Login page has no session yet - render it standalone (no sidebar)
   if (!session) {
     return <div className="bg-gray-50 min-h-screen">{children}</div>;
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      <aside className="w-56 bg-navy text-white flex flex-col shrink-0">
-        <div className="px-5 py-5 font-bold text-lg border-b border-white/10">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+      <aside className="w-full md:w-56 bg-navy text-white flex flex-col md:min-h-screen shrink-0">
+        <div className="px-5 py-4 md:py-5 font-bold text-lg border-b border-white/10">
           MaverickMind
         </div>
-        <nav className="flex-1 px-2 py-4 space-y-1">
+        <nav className="flex md:flex-col overflow-x-auto md:overflow-visible px-2 py-2 md:py-4 gap-1 md:gap-0 md:space-y-1">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="block px-3 py-2 rounded text-sm hover:bg-white/10"
+              className="block px-3 py-2 rounded text-sm hover:bg-white/10 whitespace-nowrap"
             >
               {l.label}
             </Link>
           ))}
         </nav>
-        <div className="px-4 py-4 border-t border-white/10 text-sm">
-          <p className="text-gray-300 mb-3">Signed in as {session.username}</p>
+        <div className="px-4 py-3 md:py-4 border-t border-white/10 text-sm flex items-center justify-between md:block">
+          <p className="text-gray-300 md:mb-3">Signed in as {session.username}</p>
           <LogoutButton />
         </div>
       </aside>
-      <div className="flex-1 p-8">{children}</div>
+      <div className="flex-1 p-4 sm:p-6 md:p-8 min-w-0">{children}</div>
     </div>
   );
 }

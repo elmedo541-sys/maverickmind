@@ -30,7 +30,7 @@ export default async function HomePage() {
             installation services.
           </p>
           <div
-            className="flex justify-center gap-4 animate-fade-in-up"
+            className="flex flex-wrap justify-center gap-4 animate-fade-in-up"
             style={{ animationDelay: "240ms" }}
           >
             <Link

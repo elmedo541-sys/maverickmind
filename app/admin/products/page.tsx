@@ -3,6 +3,7 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "./DeleteButton";
 import FeaturedButton from "./FeaturedButton";
+import { formatPrice } from "@/lib/formatPrice";
 import type { Prisma } from "@prisma/client";
 
 export default async function AdminProductsPage({
@@ -111,7 +112,7 @@ export default async function AdminProductsPage({
                 <td className="px-4 py-3 text-gray-600">
                   {p.brand?.brandName || "—"}
                 </td>
-                <td className="px-4 py-3">₱{Number(p.price).toFixed(2)}</td>
+                <td className="px-4 py-3">₱{formatPrice(p.price.toString())}</td>
                 <td className="px-4 py-3">{p.quantity}</td>
                 <td className="px-4 py-3 text-center">
                   <FeaturedButton id={p.id} featured={p.featured} />

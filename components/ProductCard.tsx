@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { formatPrice } from "@/lib/formatPrice";
 
 type ProductCardProps = {
   id: number;
@@ -40,7 +41,7 @@ export default function ProductCard({
           <p className="text-xs text-gray-500 mb-1">{categoryName}</p>
         )}
         <h3 className="font-semibold text-navy">{productName}</h3>
-        <p className="text-blue-700 font-bold mt-1">₱{Number(price).toFixed(2)}</p>
+        <p className="text-blue-700 font-bold mt-1">₱{formatPrice(price)}</p>
       </div>
     </Link>
   );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ProductGallery from "@/components/ProductGallery";
+import { formatPrice } from "@/lib/formatPrice";
 
 export async function generateMetadata({
   params,
@@ -66,7 +67,7 @@ export default async function ProductDetailPage({
             </p>
           )}
           <p className="text-2xl font-bold text-blue-700 mb-4">
-            ₱{Number(product.price).toFixed(2)}
+            ₱{formatPrice(product.price.toString())}
           </p>
           <p className="text-sm text-gray-600 mb-6">
             {product.quantity > 0

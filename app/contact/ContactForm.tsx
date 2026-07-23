@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
+import { useState } from "react";
 import { sendMessage, type ContactState } from "./actions";
 
 const initialState: ContactState = { success: false, error: "" };
@@ -20,6 +21,7 @@ function SubmitButton() {
 
 export default function ContactForm() {
   const [state, formAction] = useFormState(sendMessage, initialState);
+  const [preferredContact, setPreferredContact] = useState("Email");
 
   if (state.success) {
     return (
@@ -58,6 +60,44 @@ export default function ContactForm() {
           className="w-full border rounded px-3 py-2"
         />
       </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          How should we contact you back?
+        </label>
+        <select
+          name="preferred_contact"
+          value={preferredContact}
+          onChange={(e) => setPreferredContact(e.target.value)}
+          className="w-full border rounded px-3 py-2"
+        >
+          <option value="Email">Email</option>
+          <option value="Viber">Viber</option>
+          <option value="Messenger">Messenger</option>
+        </select>
+      </div>
+
+      {preferredContact !== "Email" && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {preferredContact === "Viber"
+              ? "Viber Number"
+              : "Messenger Username or Link"}
+          </label>
+          <input
+            type="text"
+            name="contact_detail"
+            required
+            placeholder={
+              preferredContact === "Viber"
+                ? "e.g. 09171234567"
+                : "e.g. m.me/yourname"
+            }
+            className="w-full border rounded px-3 py-2"
+          />
+        </div>
+      )}
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Message

@@ -61,11 +61,13 @@ model Service {
 }
 
 model Inquiry {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  message   String   @db.Text
-  createdAt DateTime @default(now()) @map("created_at")
+  id               Int      @id @default(autoincrement())
+  name             String
+  email            String
+  message          String   @db.Text
+  preferredContact String   @default("Email") @map("preferred_contact")
+  contactDetail    String?  @map("contact_detail")
+  createdAt        DateTime @default(now()) @map("created_at")
 
   @@map("inquiries")
 }

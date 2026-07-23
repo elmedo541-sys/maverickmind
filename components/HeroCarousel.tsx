@@ -3,14 +3,14 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatPrice } from "@/lib/formatPrice";
 
 type Slide = {
   id: number;
-  productName: string;
-  price: string;
-  image: string | null;
-  categoryName?: string | null;
+  title: string;
+  subtitle?: string | null;
+  image: string;
+  linkUrl?: string | null;
+  linkLabel?: string | null;
 };
 
 export default function HeroCarousel({ slides }: { slides: Slide[] }) {
@@ -50,17 +50,13 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
             }`}
           >
             <div className="relative w-full h-full">
-              {slide.image ? (
-                <Image
-                  src={slide.image}
-                  alt={slide.productName}
-                  fill
-                  priority={i === 0}
-                  className="object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-navyLight" />
-              )}
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                priority={i === 0}
+                className="object-cover"
+              />
               <div
                 className="absolute inset-0"
                 style={{
@@ -73,23 +69,22 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
             <div className="absolute inset-0 flex items-center">
               <div className="max-w-6xl mx-auto px-6 w-full">
                 <div className="max-w-md text-white">
-                  {slide.categoryName && (
-                    <p className="text-blue-300 text-sm font-medium mb-2 uppercase tracking-wide">
-                      {slide.categoryName}
+                  <h2 className="text-2xl md:text-4xl font-bold mb-3 leading-tight">
+                    {slide.title}
+                  </h2>
+                  {slide.subtitle && (
+                    <p className="text-lg text-blue-200 mb-6">
+                      {slide.subtitle}
                     </p>
                   )}
-                  <h2 className="text-2xl md:text-4xl font-bold mb-3 leading-tight">
-                    {slide.productName}
-                  </h2>
-                  <p className="text-xl font-semibold text-blue-200 mb-6">
-                    ₱{formatPrice(slide.price)}
-                  </p>
-                  <Link
-                    href={`/products/${slide.id}`}
-                    className="inline-block bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
-                  >
-                    View Product
-                  </Link>
+                  {slide.linkUrl && (
+                    <Link
+                      href={slide.linkUrl}
+                      className="inline-block bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+                    >
+                      {slide.linkLabel || "Learn More"}
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

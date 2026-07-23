@@ -5,7 +5,11 @@ import FadeIn from "@/components/FadeIn";
 import HeroCarousel from "@/components/HeroCarousel";
 
 export default async function HomePage() {
-  const [products, services] = await Promise.all([
+  const [slides, products, services] = await Promise.all([
+    prisma.slide.findMany({
+      where: { active: true },
+      orderBy: { position: "asc" },
+    }),
     prisma.product.findMany({
       where: { featured: true },
       orderBy: { id: "desc" },
@@ -17,14 +21,15 @@ export default async function HomePage() {
 
   return (
     <div>
-      {products.length > 0 ? (
+      {slides.length > 0 ? (
         <HeroCarousel
-          slides={products.slice(0, 5).map((p) => ({
-            id: p.id,
-            productName: p.productName,
-            price: p.price.toString(),
-            image: p.images[0] ?? null,
-            categoryName: p.category?.categoryName,
+          slides={slides.map((s) => ({
+            id: s.id,
+            title: s.title,
+            subtitle: s.subtitle,
+            image: s.image,
+            linkUrl: s.linkUrl,
+            linkLabel: s.linkLabel,
           }))}
         />
       ) : (

@@ -12,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="bg-navy text-white px-6 py-3 rounded font-semibold hover:bg-navyLight disabled:opacity-60"
+      className="bg-navy text-white px-6 py-3 rounded font-semibold hover:bg-navyLight disabled:opacity-60 transition transform hover:scale-105"
     >
       {pending ? "Sending..." : "Send Message"}
     </button>
@@ -25,7 +25,7 @@ export default function ContactForm() {
 
   if (state.success) {
     return (
-      <div className="bg-green-50 border border-green-200 text-green-800 rounded p-4">
+      <div className="bg-green-50 border border-green-200 text-green-800 rounded p-4 animate-fade-in-up">
         Thanks! Your message has been sent. We&apos;ll get back to you soon.
       </div>
     );
@@ -46,7 +46,7 @@ export default function ContactForm() {
           type="text"
           name="name"
           required
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 transition focus:ring-2 focus:ring-blue-300 outline-none"
         />
       </div>
       <div>
@@ -57,7 +57,7 @@ export default function ContactForm() {
           type="email"
           name="email"
           required
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 transition focus:ring-2 focus:ring-blue-300 outline-none"
         />
       </div>
 
@@ -69,7 +69,7 @@ export default function ContactForm() {
           name="preferred_contact"
           value={preferredContact}
           onChange={(e) => setPreferredContact(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 transition focus:ring-2 focus:ring-blue-300 outline-none"
         >
           <option value="Email">Email</option>
           <option value="Viber">Viber</option>
@@ -93,7 +93,7 @@ export default function ContactForm() {
                 ? "e.g. 09171234567"
                 : "e.g. m.me/yourname"
             }
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded px-3 py-2 transition focus:ring-2 focus:ring-blue-300 outline-none"
           />
         </div>
       )}
@@ -106,7 +106,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={5}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 transition focus:ring-2 focus:ring-blue-300 outline-none"
         />
       </div>
       <SubmitButton />

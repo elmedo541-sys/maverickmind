@@ -38,11 +38,13 @@ export default async function ProductsPage({
   };
 
   const [products, categories, brands, categoryTiles] = await Promise.all([
-    prisma.product.findMany({
-      where,
-      include: { category: true, brand: true },
-      orderBy: SORT_OPTIONS[sort],
-    }),
+    isBrowsing
+      ? Promise.resolve([])
+      : prisma.product.findMany({
+          where,
+          include: { category: true, brand: true },
+          orderBy: SORT_OPTIONS[sort],
+        }),
     prisma.category.findMany({ orderBy: { categoryName: "asc" } }),
     prisma.brand.findMany({ orderBy: { brandName: "asc" } }),
     isBrowsing
@@ -58,7 +60,7 @@ export default async function ProductsPage({
             },
           },
         })
-     : Promise.resolve([]),
+      : Promise.resolve([]),
   ]);
 
   const nonEmptyCategoryTiles = categoryTiles.filter(
@@ -71,7 +73,7 @@ export default async function ProductsPage({
         <h1 className="text-3xl font-bold text-navy mb-8">Products</h1>
       </FadeIn>
 
-     {isBrowsing && nonEmptyCategoryTiles.length > 0 && (
+      {isBrowsing && nonEmptyCategoryTiles.length > 0 && (
         <FadeIn delay={60}>
           <div className="mb-10">
             <h2 className="text-lg font-semibold text-navy mb-4">
@@ -170,38 +172,42 @@ export default async function ProductsPage({
         </form>
       </FadeIn>
 
-      <FadeIn delay={100}>
-        <p className="text-sm text-gray-500 mb-4">
-          {products.length} {products.length === 1 ? "product" : "products"} found
-        </p>
-      </FadeIn>
+      {!isBrowsing && (
+        <>
+          <FadeIn delay={100}>
+            <p className="text-sm text-gray-500 mb-4">
+              {products.length} {products.length === 1 ? "product" : "products"} found
+            </p>
+          </FadeIn>
 
-      {products.length === 0 ? (
-        <FadeIn delay={120}>
-          <p className="text-gray-500">
-            No products match your filters.{" "}
-            <Link href="/products" className="text-blue-700 underline">
-              Reset
-            </Link>
-          </p>
-        </FadeIn>
-      ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((p, i) => (
-            <FadeIn key={p.id} delay={Math.min(i, 8) * 60}>
-              <ProductCard
-                id={p.id}
-                productName={p.productName}
-                price={p.price.toString()}
-                image={p.images[0] ?? null}
-                categoryName={p.category?.categoryName}
-                brandName={p.brand?.brandName}
-                quantity={p.quantity}
-                featured={p.featured}
-              />
+          {products.length === 0 ? (
+            <FadeIn delay={120}>
+              <p className="text-gray-500">
+                No products match your filters.{" "}
+                <Link href="/products" className="text-blue-700 underline">
+                  Reset
+                </Link>
+              </p>
             </FadeIn>
-          ))}
-        </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {products.map((p, i) => (
+                <FadeIn key={p.id} delay={Math.min(i, 8) * 60}>
+                  <ProductCard
+                    id={p.id}
+                    productName={p.productName}
+                    price={p.price.toString()}
+                    image={p.images[0] ?? null}
+                    categoryName={p.category?.categoryName}
+                    brandName={p.brand?.brandName}
+                    quantity={p.quantity}
+                    featured={p.featured}
+                  />
+                </FadeIn>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

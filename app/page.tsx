@@ -58,8 +58,12 @@ export default async function ProductsPage({
             },
           },
         })
-      : Promise.resolve([]),
+     : Promise.resolve([]),
   ]);
+
+  const nonEmptyCategoryTiles = categoryTiles.filter(
+    (c) => c._count.products > 0
+  );
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
@@ -67,14 +71,14 @@ export default async function ProductsPage({
         <h1 className="text-3xl font-bold text-navy mb-8">Products</h1>
       </FadeIn>
 
-      {isBrowsing && categoryTiles.length > 0 && (
+     {isBrowsing && nonEmptyCategoryTiles.length > 0 && (
         <FadeIn delay={60}>
           <div className="mb-10">
             <h2 className="text-lg font-semibold text-navy mb-4">
               Browse by Category
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {categoryTiles.map((c, i) => {
+              {nonEmptyCategoryTiles.map((c, i) => {
                 const coverImage = c.products[0]?.images[0] ?? null;
                 return (
                   <FadeIn key={c.id} delay={i * 50}>

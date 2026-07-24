@@ -69,108 +69,120 @@ export default async function ProductsPage({
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
-      <FadeIn>
-        <h1 className="text-3xl font-bold text-navy mb-8">Products</h1>
-      </FadeIn>
-
-      {isBrowsing && nonEmptyCategoryTiles.length > 0 && (
-        <FadeIn delay={60}>
-          <div className="mb-10">
-            <h2 className="text-lg font-semibold text-navy mb-4">
-              Browse by Category
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {nonEmptyCategoryTiles.map((c, i) => {
-                const coverImage = c.products[0]?.images[0] ?? null;
-                return (
-                  <FadeIn key={c.id} delay={i * 50}>
-                    <Link
-                      href={`/products?category=${c.id}`}
-                      className="block bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden transform hover:-translate-y-1 group"
-                    >
-                      <div className="relative w-full h-28 bg-gray-100 overflow-hidden">
-                        {coverImage ? (
-                          <Image
-                            src={coverImage}
-                            alt={c.categoryName}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-110"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">
-                            No image
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-3">
-                        <p className="font-semibold text-navy text-sm">
-                          {c.categoryName}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {c._count.products}{" "}
-                          {c._count.products === 1 ? "product" : "products"}
-                        </p>
-                      </div>
-                    </Link>
-                  </FadeIn>
-                );
-              })}
+      <form>
+        <FadeIn>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
+            <h1 className="text-3xl font-bold text-navy">Products</h1>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <input
+                type="text"
+                name="search"
+                placeholder="Search products..."
+                defaultValue={search}
+                className="border rounded px-3 py-2 text-sm flex-1 sm:w-64 transition focus:ring-2 focus:ring-blue-300 outline-none"
+              />
+              <button
+                type="submit"
+                className="bg-navy text-white rounded px-4 py-2 text-sm font-medium hover:bg-navyLight transition transform hover:scale-105 whitespace-nowrap"
+              >
+                Search
+              </button>
             </div>
           </div>
         </FadeIn>
-      )}
 
-      <FadeIn delay={80}>
-        <form className="grid sm:grid-cols-5 gap-3 mb-6 bg-white p-4 rounded-lg shadow-sm">
-          <input
-            type="text"
-            name="search"
-            placeholder="Search products..."
-            defaultValue={search}
-            className="border rounded px-3 py-2 text-sm sm:col-span-2 transition focus:ring-2 focus:ring-blue-300 outline-none"
-          />
-          <select
-            name="category"
-            defaultValue={searchParams.category || ""}
-            className="border rounded px-3 py-2 text-sm transition focus:ring-2 focus:ring-blue-300 outline-none"
-          >
-            <option value="">All Categories</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.categoryName}
-              </option>
-            ))}
-          </select>
-          <select
-            name="brand"
-            defaultValue={searchParams.brand || ""}
-            className="border rounded px-3 py-2 text-sm transition focus:ring-2 focus:ring-blue-300 outline-none"
-          >
-            <option value="">All Brands</option>
-            {brands.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.brandName}
-              </option>
-            ))}
-          </select>
-          <select
-            name="sort"
-            defaultValue={sort}
-            className="border rounded px-3 py-2 text-sm transition focus:ring-2 focus:ring-blue-300 outline-none"
-          >
-            <option value="newest">Newest</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="name_asc">Name: A to Z</option>
-          </select>
-          <button
-            type="submit"
-            className="sm:col-span-5 bg-navy text-white rounded px-4 py-2 text-sm font-medium hover:bg-navyLight transition transform hover:scale-[1.02]"
-          >
-            Apply Filters
-          </button>
-        </form>
-      </FadeIn>
+        {isBrowsing && nonEmptyCategoryTiles.length > 0 && (
+          <FadeIn delay={60}>
+            <div className="mb-10">
+              <h2 className="text-lg font-semibold text-navy mb-4">
+                Browse by Category
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {nonEmptyCategoryTiles.map((c, i) => {
+                  const coverImage = c.products[0]?.images[0] ?? null;
+                  return (
+                    <FadeIn key={c.id} delay={i * 50}>
+                      <Link
+                        href={`/products?category=${c.id}`}
+                        className="block bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden transform hover:-translate-y-1 group"
+                      >
+                        <div className="relative w-full h-28 bg-gray-100 overflow-hidden">
+                          {coverImage ? (
+                            <Image
+                              src={coverImage}
+                              alt={c.categoryName}
+                              fill
+                              className="object-cover transition-transform duration-300 group-hover:scale-110"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">
+                              No image
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-3">
+                          <p className="font-semibold text-navy text-sm">
+                            {c.categoryName}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {c._count.products}{" "}
+                            {c._count.products === 1 ? "product" : "products"}
+                          </p>
+                        </div>
+                      </Link>
+                    </FadeIn>
+                  );
+                })}
+              </div>
+            </div>
+          </FadeIn>
+        )}
+
+        <FadeIn delay={80}>
+          <div className="grid sm:grid-cols-4 gap-3 mb-6 bg-white p-4 rounded-lg shadow-sm">
+            <select
+              name="category"
+              defaultValue={searchParams.category || ""}
+              className="border rounded px-3 py-2 text-sm transition focus:ring-2 focus:ring-blue-300 outline-none"
+            >
+              <option value="">All Categories</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.categoryName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="brand"
+              defaultValue={searchParams.brand || ""}
+              className="border rounded px-3 py-2 text-sm transition focus:ring-2 focus:ring-blue-300 outline-none"
+            >
+              <option value="">All Brands</option>
+              {brands.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.brandName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="sort"
+              defaultValue={sort}
+              className="border rounded px-3 py-2 text-sm transition focus:ring-2 focus:ring-blue-300 outline-none"
+            >
+              <option value="newest">Newest</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="name_asc">Name: A to Z</option>
+            </select>
+            <button
+              type="submit"
+              className="sm:col-span-4 bg-navy text-white rounded px-4 py-2 text-sm font-medium hover:bg-navyLight transition transform hover:scale-[1.02]"
+            >
+              Apply Filters
+            </button>
+          </div>
+        </FadeIn>
+      </form>
 
       {!isBrowsing && (
         <>

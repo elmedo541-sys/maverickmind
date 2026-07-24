@@ -18,7 +18,7 @@ export default async function Navbar() {
 
   return (
     <header className="bg-navy text-white relative z-50">
-      <div className="max-w-6xl mx-auto px-6 py-4">
+      <div className="max-w-6xl mx-auto px-6 py-7">
         <div className="flex items-center justify-between">
           <Link href="/">
             <Logo />

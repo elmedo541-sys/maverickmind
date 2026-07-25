@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   },
   description:
     "Fire alarm systems, CCTV, PoE switches, video recorders, and cabling & wiring, plus professional installation services.",
+  verification: {
+    google: "R70V4WcDk0h2fbA8VTj3Dk6tMtoHz8lnWA0ZurrA3eM",
+  },
 };
 
 export default function RootLayout({

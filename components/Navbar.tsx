@@ -6,7 +6,6 @@ import { getNavCategories } from "@/lib/cachedQueries";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

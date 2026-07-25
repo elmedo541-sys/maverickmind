@@ -6,7 +6,6 @@ import Link from "next/link";
 type Category = { id: number; categoryName: string };
 
 const links = [
-  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

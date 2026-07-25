@@ -61,12 +61,13 @@ export default function ProductsDropdown({
       </button>
 
       <div
-        className={`absolute left-0 mt-2 w-64 bg-white text-navy rounded-lg shadow-lg py-2 z-50 origin-top transition-all duration-200 ${
+        className={`absolute left-0 top-full pt-2 w-64 z-50 origin-top transition-all duration-200 ${
           open
             ? "opacity-100 scale-100 pointer-events-auto"
             : "opacity-0 scale-95 pointer-events-none"
         }`}
       >
+        <div className="bg-white text-navy rounded-lg shadow-lg py-2">
         <Link
           href="/products"
           onClick={closeAll}
@@ -127,6 +128,7 @@ export default function ProductsDropdown({
             )}
           </div>
         ))}
+        </div>
       </div>
     </li>
   );

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 import ProductsDropdown from "./ProductsDropdown";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
+import { getNavCategories } from "@/lib/cachedQueries";
 
 const links = [
   { href: "/", label: "Home" },
@@ -12,10 +12,7 @@ const links = [
 ];
 
 export default async function Navbar() {
-  const categories = await prisma.category.findMany({
-    orderBy: { categoryName: "asc" },
-  });
-
+  const categories = await getNavCategories();
   return (
     <header className="bg-navy text-white relative z-50">
       <div className="max-w-6xl mx-auto px-6 py-7">

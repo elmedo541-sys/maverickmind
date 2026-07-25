@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 type Brand = { id: number; brandName: string };
@@ -20,7 +20,7 @@ export default function ProductsDropdown({
     setExpandedCategory(null);
   }
 
-  useState(() => {
+  useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         closeAll();
@@ -28,7 +28,7 @@ export default function ProductsDropdown({
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  });
+  }, []);
 
   return (
     <li ref={ref} className="relative">

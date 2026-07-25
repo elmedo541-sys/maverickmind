@@ -89,11 +89,6 @@ export default async function ProductDetailPage({
             <p className="text-2xl font-bold text-blue-700 mb-4">
               ₱{formatPrice(product.price.toString())}
             </p>
-            <p className="text-sm text-gray-600 mb-6">
-              {product.quantity > 0
-                ? `${product.quantity} in stock`
-                : "Currently out of stock"}
-            </p>
             <p className="text-gray-700 leading-relaxed whitespace-pre-line">
               {product.description}
             </p>
@@ -123,7 +118,6 @@ export default async function ProductDetailPage({
                   image={p.images[0] ?? null}
                   categoryName={p.category?.categoryName}
                   brandName={p.brand?.brandName}
-                  quantity={p.quantity}
                   featured={p.featured}
                 />
               </FadeIn>

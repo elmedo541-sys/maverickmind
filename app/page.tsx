@@ -58,7 +58,6 @@ export default async function HomePage() {
                   image={p.images[0] ?? null}
                   categoryName={p.category?.categoryName}
                   brandName={p.brand?.brandName}
-                  quantity={p.quantity}
                 />
               </FadeIn>
             ))}

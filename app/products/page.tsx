@@ -160,7 +160,6 @@ export default async function ProductsPage({
                     image={p.images[0] ?? null}
                     categoryName={p.category?.categoryName}
                     brandName={p.brand?.brandName}
-                    quantity={p.quantity}
                     featured={p.featured}
                   />
                 </FadeIn>

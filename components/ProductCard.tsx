@@ -9,7 +9,6 @@ type ProductCardProps = {
   image: string | null;
   categoryName?: string | null;
   brandName?: string | null;
-  quantity?: number;
   featured?: boolean;
 };
 
@@ -20,12 +19,8 @@ export default function ProductCard({
   image,
   categoryName,
   brandName,
-  quantity,
   featured,
 }: ProductCardProps) {
-  const showLowStock = typeof quantity === "number" && quantity > 0 && quantity <= 5;
-  const showOutOfStock = typeof quantity === "number" && quantity === 0;
-
   return (
     <Link
       href={`/products/${id}`}
@@ -47,16 +42,6 @@ export default function ProductCard({
         {featured && (
           <span className="absolute top-2 left-2 bg-blue-600 text-white text-[11px] font-medium px-2 py-1 rounded">
             Featured
-          </span>
-        )}
-        {showOutOfStock && (
-          <span className="absolute top-2 right-2 bg-gray-700 text-white text-[11px] font-medium px-2 py-1 rounded">
-            Out of stock
-          </span>
-        )}
-        {showLowStock && (
-          <span className="absolute top-2 right-2 bg-amber-500 text-white text-[11px] font-medium px-2 py-1 rounded">
-            {quantity} left
           </span>
         )}
       </div>

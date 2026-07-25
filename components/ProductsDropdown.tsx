@@ -31,7 +31,12 @@ export default function ProductsDropdown({
   }, []);
 
   return (
-    <li ref={ref} className="relative">
+    <li
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={closeAll}
+    >
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -71,7 +76,7 @@ export default function ProductsDropdown({
         </Link>
         {categories.length > 0 && <div className="border-t my-1" />}
         {categories.map((c) => (
-          <div key={c.id}>
+          <div key={c.id} onMouseEnter={() => setExpandedCategory(c.id)}>
             <div className="flex items-center justify-between hover:bg-gray-50">
               <Link
                 href={`/products?category=${c.id}`}
@@ -81,14 +86,7 @@ export default function ProductsDropdown({
                 {c.categoryName}
               </Link>
               {c.brands.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setExpandedCategory((prev) => (prev === c.id ? null : c.id))
-                  }
-                  className="px-3 py-2 text-gray-400 hover:text-navy"
-                  aria-label={`Show brands for ${c.categoryName}`}
-                >
+                <span className="px-3 py-2 text-gray-400">
                   <svg
                     width="10"
                     height="10"
@@ -106,7 +104,7 @@ export default function ProductsDropdown({
                       strokeLinejoin="round"
                     />
                   </svg>
-                </button>
+                </span>
               )}
             </div>
             {c.brands.length > 0 && (

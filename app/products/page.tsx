@@ -10,17 +10,19 @@ export const metadata = { title: "Products" };
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { search?: string; category?: string; all?: string };
+  searchParams: { search?: string; category?: string; brand?: string; all?: string };
 }) {
   const search = searchParams.search?.trim() || "";
   const categoryId = searchParams.category ? Number(searchParams.category) : undefined;
+  const brandId = searchParams.brand ? Number(searchParams.brand) : undefined;
   const showAll = searchParams.all === "1";
 
-  const isBrowsing = !search && !categoryId && !showAll;
+  const isBrowsing = !search && !categoryId && !brandId && !showAll;
 
   const where: Prisma.ProductWhereInput = {
     ...(search ? { productName: { contains: search, mode: "insensitive" } } : {}),
     ...(categoryId ? { categoryId } : {}),
+    ...(brandId ? { brandId } : {}),
   };
 
   const [products, categoryTiles] = await Promise.all([

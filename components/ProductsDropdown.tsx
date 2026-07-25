@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 
-type Category = { id: number; categoryName: string };
+type Brand = { id: number; brandName: string };
+type Category = { id: number; categoryName: string; brands: Brand[] };
 
 export default function ProductsDropdown({
   categories,
@@ -11,17 +12,23 @@ export default function ProductsDropdown({
   categories: Category[];
 }) {
   const [open, setOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const ref = useRef<HTMLLIElement>(null);
 
-  useEffect(() => {
+  function closeAll() {
+    setOpen(false);
+    setExpandedCategory(null);
+  }
+
+  useState(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
+        closeAll();
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  });
 
   return (
     <li ref={ref} className="relative">
@@ -49,7 +56,7 @@ export default function ProductsDropdown({
       </button>
 
       <div
-        className={`absolute left-0 mt-2 w-56 bg-white text-navy rounded-lg shadow-lg py-2 z-50 origin-top transition-all duration-200 ${
+        className={`absolute left-0 mt-2 w-64 bg-white text-navy rounded-lg shadow-lg py-2 z-50 origin-top transition-all duration-200 ${
           open
             ? "opacity-100 scale-100 pointer-events-auto"
             : "opacity-0 scale-95 pointer-events-none"
@@ -57,21 +64,70 @@ export default function ProductsDropdown({
       >
         <Link
           href="/products"
-          onClick={() => setOpen(false)}
+          onClick={closeAll}
           className="block px-4 py-2 text-sm font-semibold hover:bg-gray-50"
         >
           All Products
         </Link>
         {categories.length > 0 && <div className="border-t my-1" />}
         {categories.map((c) => (
-          <Link
-            key={c.id}
-            href={`/products?category=${c.id}`}
-            onClick={() => setOpen(false)}
-            className="block px-4 py-2 text-sm hover:bg-gray-50"
-          >
-            {c.categoryName}
-          </Link>
+          <div key={c.id}>
+            <div className="flex items-center justify-between hover:bg-gray-50">
+              <Link
+                href={`/products?category=${c.id}`}
+                onClick={closeAll}
+                className="flex-1 px-4 py-2 text-sm"
+              >
+                {c.categoryName}
+              </Link>
+              {c.brands.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setExpandedCategory((prev) => (prev === c.id ? null : c.id))
+                  }
+                  className="px-3 py-2 text-gray-400 hover:text-navy"
+                  aria-label={`Show brands for ${c.categoryName}`}
+                >
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    fill="none"
+                    className={`transition-transform ${
+                      expandedCategory === c.id ? "rotate-180" : ""
+                    }`}
+                  >
+                    <path
+                      d="M1 3L5 7L9 3"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
+            {c.brands.length > 0 && (
+              <div
+                className={`overflow-hidden transition-all duration-200 bg-gray-50 ${
+                  expandedCategory === c.id ? "max-h-60" : "max-h-0"
+                }`}
+              >
+                {c.brands.map((b) => (
+                  <Link
+                    key={b.id}
+                    href={`/products?category=${c.id}&brand=${b.id}`}
+                    onClick={closeAll}
+                    className="block pl-8 pr-4 py-1.5 text-sm text-gray-600 hover:bg-gray-100"
+                  >
+                    {b.brandName}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </li>

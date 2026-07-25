@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type Category = { id: number; categoryName: string };
+type Brand = { id: number; brandName: string };
+type Category = { id: number; categoryName: string; brands: Brand[] };
 
 const links = [
   { href: "/about", label: "About" },
@@ -13,10 +14,12 @@ const links = [
 export default function MobileMenu({ categories }: { categories: Category[] }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   function closeAll() {
     setOpen(false);
     setProductsOpen(false);
+    setExpandedCategory(null);
   }
 
   return (
@@ -48,7 +51,7 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
 
       <div
         className={`absolute top-full left-0 right-0 bg-navy border-t border-white/10 overflow-hidden transition-all duration-300 ${
-          open ? "max-h-[28rem]" : "max-h-0"
+          open ? "max-h-[32rem] overflow-y-auto" : "max-h-0"
         }`}
       >
         <ul className="px-6 pb-4 pt-2 text-sm font-medium space-y-1">
@@ -86,7 +89,7 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
             </button>
             <div
               className={`overflow-hidden transition-all duration-300 ${
-                productsOpen ? "max-h-96" : "max-h-0"
+                productsOpen ? "max-h-[28rem]" : "max-h-0"
               }`}
             >
               <div className="pl-4 pt-1 space-y-1">
@@ -98,14 +101,65 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
                   All Products
                 </Link>
                 {categories.map((c) => (
-                  <Link
-                    key={c.id}
-                    href={`/products?category=${c.id}`}
-                    onClick={closeAll}
-                    className="block px-2 py-1.5 rounded text-gray-200 hover:bg-white/10"
-                  >
-                    {c.categoryName}
-                  </Link>
+                  <div key={c.id}>
+                    <div className="flex items-center justify-between">
+                      <Link
+                        href={`/products?category=${c.id}`}
+                        onClick={closeAll}
+                        className="flex-1 px-2 py-1.5 rounded text-gray-200 hover:bg-white/10"
+                      >
+                        {c.categoryName}
+                      </Link>
+                      {c.brands.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExpandedCategory((prev) =>
+                              prev === c.id ? null : c.id
+                            )
+                          }
+                          className="px-2 py-1.5 text-gray-400"
+                          aria-label={`Show brands for ${c.categoryName}`}
+                        >
+                          <svg
+                            width="9"
+                            height="9"
+                            viewBox="0 0 10 10"
+                            fill="none"
+                            className={`transition-transform ${
+                              expandedCategory === c.id ? "rotate-180" : ""
+                            }`}
+                          >
+                            <path
+                              d="M1 3L5 7L9 3"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                    {c.brands.length > 0 && (
+                      <div
+                        className={`overflow-hidden transition-all duration-200 ${
+                          expandedCategory === c.id ? "max-h-40" : "max-h-0"
+                        }`}
+                      >
+                        {c.brands.map((b) => (
+                          <Link
+                            key={b.id}
+                            href={`/products?category=${c.id}&brand=${b.id}`}
+                            onClick={closeAll}
+                            className="block pl-6 pr-2 py-1 rounded text-gray-400 text-xs hover:bg-white/10"
+                          >
+                            {b.brandName}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

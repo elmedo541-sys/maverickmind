@@ -16,7 +16,7 @@ export async function generateMetadata({
   if (Number.isNaN(id)) return {};
 
   const product = await prisma.product.findUnique({ where: { id } });
-  if (!product) return {};
+  if (!product || !product.visible) return {};
 
   const description = product.description.slice(0, 155);
 
@@ -44,13 +44,14 @@ export default async function ProductDetailPage({
     include: { category: true, brand: true },
   });
 
-  if (!product) notFound();
+  if (!product || !product.visible) notFound();
 
   const relatedProducts = product.categoryId
     ? await prisma.product.findMany({
         where: {
           categoryId: product.categoryId,
           id: { not: product.id },
+          visible: true,
         },
         include: { category: true, brand: true },
         orderBy: { id: "desc" },

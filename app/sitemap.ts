@@ -5,7 +5,10 @@ const BASE_URL = "https://maverickmind.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, services] = await Promise.all([
-    prisma.product.findMany({ select: { id: true, createdAt: true } }),
+    prisma.product.findMany({
+      where: { visible: true },
+      select: { id: true, createdAt: true },
+    }),
     prisma.service.findMany({ select: { id: true, createdAt: true } }),
   ]);
 

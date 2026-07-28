@@ -33,19 +33,17 @@ export async function createProduct(
   _prevState: ProductFormState,
   formData: FormData
 ): Promise<ProductFormState> {
-  const productName = (formData.get("product_name") as string || "").trim();
+  const productName =
+    (formData.get("product_name") as string || "").trim() || "Untitled Product";
   const modelNumber = (formData.get("model_number") as string || "").trim() || null;
   const categoryName = (formData.get("category_name") as string || "").trim();
   const brandName = (formData.get("brand_name") as string || "").trim();
-  const price = formData.get("price") as string;
+  const price = (formData.get("price") as string) || "0";
   const quantity = Number(formData.get("quantity") || 0);
   const description = (formData.get("description") as string || "").trim();
   const featured = formData.get("featured") === "on";
+  const visible = formData.get("visible") === "on";
   const files = formData.getAll("images") as File[];
-
-  if (!productName || !price || !description) {
-    return { error: "Please fill in all required fields." };
-  }
 
   const existing = await prisma.product.findFirst({ where: { productName } });
   if (existing) {
@@ -90,6 +88,7 @@ export async function createProduct(
       description,
       images,
       featured,
+      visible,
     },
   });
 
@@ -104,25 +103,27 @@ export async function updateProduct(
   _prevState: ProductFormState,
   formData: FormData
 ): Promise<ProductFormState> {
-  const productName = (formData.get("product_name") as string || "").trim();
+  const productNameInput = (formData.get("product_name") as string || "").trim();
   const modelNumber = (formData.get("model_number") as string || "").trim() || null;
   const categoryId = Number(formData.get("category_id"));
   const brandId = Number(formData.get("brand_id")) || null;
-  const price = formData.get("price") as string;
+  const priceInput = formData.get("price") as string;
   const quantity = Number(formData.get("quantity") || 0);
-  const description = (formData.get("description") as string || "").trim();
+  const descriptionInput = (formData.get("description") as string || "").trim();
   const featured = formData.get("featured") === "on";
+  const visible = formData.get("visible") === "on";
   const files = formData.getAll("images") as File[];
   const removeUrls = formData.getAll("remove_images") as string[];
-
-  if (!productName || !price || !description) {
-    return { error: "Please fill in all required fields." };
-  }
 
   const existing = await prisma.product.findUnique({ where: { id } });
   if (!existing) {
     return { error: "Product not found." };
   }
+
+  // Every field is optional — fall back to the existing value when left blank
+  const productName = productNameInput || existing.productName;
+  const price = priceInput || existing.price.toString();
+  const description = descriptionInput || existing.description;
 
   // Remove any photos the admin marked for deletion
   if (removeUrls.length > 0) {
@@ -152,6 +153,7 @@ export async function updateProduct(
       description,
       images: finalImages,
       featured,
+      visible,
     },
   });
 
@@ -188,5 +190,20 @@ export async function toggleFeatured(id: number) {
   });
 
   revalidatePath("/admin/products");
+  revalidatePath("/");
+}
+
+export async function toggleVisible(id: number) {
+  const product = await prisma.product.findUnique({ where: { id } });
+  if (!product) return;
+
+  await prisma.product.update({
+    where: { id },
+    data: { visible: !product.visible },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/products");
+  revalidatePath(`/products/${id}`);
   revalidatePath("/");
 }

@@ -24,6 +24,7 @@ type Props = {
     description?: string;
     images?: string[];
     featured?: boolean;
+    visible?: boolean;
   };
 };
 
@@ -104,7 +105,6 @@ export default function ProductForm({
         <input
           type="text"
           name="product_name"
-          required
           defaultValue={defaultValues?.productName}
           className="w-full border rounded px-3 py-2"
         />
@@ -215,7 +215,6 @@ export default function ProductForm({
             name="price"
             step="0.01"
             min="0"
-            required
             defaultValue={defaultValues?.price}
             className="w-full border rounded px-3 py-2"
           />
@@ -240,7 +239,6 @@ export default function ProductForm({
         </label>
         <textarea
           name="description"
-          required
           rows={5}
           defaultValue={defaultValues?.description}
           className="w-full border rounded px-3 py-2"
@@ -257,6 +255,19 @@ export default function ProductForm({
         />
         <label htmlFor="featured" className="text-sm font-medium text-gray-700">
           Feature this product on the homepage
+        </label>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="visible"
+          name="visible"
+          defaultChecked={defaultValues?.visible ?? true}
+          className="w-4 h-4"
+        />
+        <label htmlFor="visible" className="text-sm font-medium text-gray-700">
+          Visible on the website (uncheck to hide this product from customers)
         </label>
       </div>
 

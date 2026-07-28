@@ -39,6 +39,7 @@ export default async function EditProductPage({
           description: product.description,
           images: product.images,
           featured: product.featured,
+          visible: product.visible,
         }}
       />
     </div>

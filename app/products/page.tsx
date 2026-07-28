@@ -20,6 +20,7 @@ export default async function ProductsPage({
   const isBrowsing = !search && !categoryId && !brandId && !showAll;
 
   const where: Prisma.ProductWhereInput = {
+    visible: true,
     ...(search ? { productName: { contains: search, mode: "insensitive" } } : {}),
     ...(categoryId ? { categoryId } : {}),
     ...(brandId ? { brandId } : {}),
@@ -37,9 +38,9 @@ export default async function ProductsPage({
       ? prisma.category.findMany({
           orderBy: { categoryName: "asc" },
           include: {
-            _count: { select: { products: true } },
+            _count: { select: { products: { where: { visible: true } } } },
             products: {
-              where: { images: { isEmpty: false } },
+              where: { images: { isEmpty: false }, visible: true },
               take: 1,
               orderBy: { id: "desc" },
               select: { images: true },

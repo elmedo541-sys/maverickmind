@@ -3,6 +3,7 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "./DeleteButton";
 import FeaturedButton from "./FeaturedButton";
+import VisibilityButton from "./VisibilityButton";
 import { formatPrice } from "@/lib/formatPrice";
 import type { Prisma, Product, Category, Brand } from "@prisma/client";
 
@@ -113,6 +114,7 @@ export default async function AdminProductsPage({
                         <th className="px-4 py-3">Price</th>
                         <th className="px-4 py-3">Qty</th>
                         <th className="px-4 py-3 text-center">Featured</th>
+                        <th className="px-4 py-3 text-center">Visible</th>
                         <th className="px-4 py-3 text-right">Actions</th>
                       </tr>
                     </thead>
@@ -148,6 +150,9 @@ export default async function AdminProductsPage({
                           <td className="px-4 py-3">{p.quantity}</td>
                           <td className="px-4 py-3 text-center">
                             <FeaturedButton id={p.id} featured={p.featured} />
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <VisibilityButton id={p.id} visible={p.visible} />
                           </td>
                           <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
                             <Link

@@ -65,7 +65,7 @@ export default function AboutPage() {
               </p>
               <p className="text-gray-700 text-sm">
                 Email:{" "}
-                
+                <a
                   href="mailto:maverickminds24@gmail.com"
                   className="text-blue-700 hover:underline"
                 >
@@ -84,7 +84,7 @@ export default function AboutPage() {
               </p>
               <p className="text-gray-700 text-sm">
                 Email:{" "}
-                
+                <a
                   href="mailto:maverickmindssales@gmail.com"
                   className="text-blue-700 hover:underline"
                 >

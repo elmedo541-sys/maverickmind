@@ -21,25 +21,19 @@ function IntroSlide({ playKey }: { playKey: number }) {
     >
       <div className="relative mb-6">
         <span className="absolute inset-0 rounded-full bg-blue-400/30 animate-ping" />
-        <div className="relative w-20 h-20 rounded-full bg-white/10 flex items-center justify-center animate-[logoPop_0.7s_ease-out_both]">
-          <svg width="44" height="44" viewBox="0 0 34 34" fill="none">
-            <path
-              d="M17 3 L28 7 L28 15 C28 22 23 27 17 30 C11 27 6 22 6 15 L6 7 Z"
-              fill="#4f9dff"
-            />
-            <path
-              d="M11 16 L15 20 L23 11"
-              stroke="#0b1f3a"
-              strokeWidth="2.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-          </svg>
+        <div className="relative w-24 h-24 animate-[logoPop_0.7s_ease-out_both]">
+          <Image
+            src="/logo.png"
+            alt="Maverick Minds, Inc."
+            fill
+            priority
+            quality={100}
+            className="object-contain drop-shadow-2xl rounded-xl"
+          />
         </div>
       </div>
       <h2 className="text-3xl md:text-5xl font-bold text-white animate-[fadeInUp_0.6s_ease-out_0.3s_both]">
-        MaverickMind
+        MAVERICK MINDS, INC.
       </h2>
       <p className="text-blue-200 mt-3 text-lg animate-[fadeInUp_0.6s_ease-out_0.6s_both]">
         Security &amp; Communication Solutions

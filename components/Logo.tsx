@@ -43,6 +43,7 @@ export default function Logo({ className = "" }: { className?: string }) {
             alt="Maverick Minds, Inc."
             fill
             priority
+            quality={100}
             className="object-contain drop-shadow-lg rounded-md"
           />
         </div>

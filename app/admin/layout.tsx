@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAdminSession } from "@/lib/auth";
 import LogoutButton from "./LogoutButton";
+import Logo from "@/components/Logo";
 
 const links = [
   { href: "/admin/dashboard", label: "Dashboard" },
@@ -25,8 +26,8 @@ export default async function AdminLayout({
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
       <aside className="w-full md:w-56 bg-navy text-white flex flex-col md:min-h-screen shrink-0">
-        <div className="px-5 py-4 md:py-5 font-bold text-lg border-b border-white/10">
-          MaverickMind
+        <div className="px-5 py-4 md:py-5 border-b border-white/10">
+          <Logo />
         </div>
         <nav className="flex md:flex-col overflow-x-auto md:overflow-visible px-2 py-2 md:py-4 gap-1 md:gap-0 md:space-y-1">
           {links.map((l) => (

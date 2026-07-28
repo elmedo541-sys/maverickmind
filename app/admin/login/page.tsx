@@ -2,6 +2,7 @@
 
 import { useFormState, useFormStatus } from "react-dom";
 import { login, type LoginState } from "./actions";
+import Logo from "@/components/Logo";
 
 const initialState: LoginState = { error: "" };
 
@@ -24,6 +25,9 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 px-6">
       <div className="w-full max-w-sm bg-white rounded-lg shadow p-8">
+        <div className="flex justify-center mb-4">
+          <Logo />
+        </div>
         <h1 className="text-xl font-bold text-navy mb-6 text-center">
           Admin Login
         </h1>

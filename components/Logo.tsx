@@ -1,21 +1,52 @@
+"use client";
+
+import { useRef, useState } from "react";
+import Image from "next/image";
+
 export default function Logo({ className = "" }: { className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    const max = 18;
+    setTilt({
+      x: (0.5 - py) * max,
+      y: (px - 0.5) * max,
+    });
+  }
+
+  function handleMouseLeave() {
+    setTilt({ x: 0, y: 0 });
+  }
+
   return (
-    <span className={`flex items-center gap-2 ${className}`}>
-      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-        <path
-          d="M17 3 L28 7 L28 15 C28 22 23 27 17 30 C11 27 6 22 6 15 L6 7 Z"
-          fill="#4f9dff"
-        />
-        <path
-          d="M11 16 L15 20 L23 11"
-          stroke="#0b1f3a"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
-      <span className="text-2xl font-bold tracking-wide">MaverickMind</span>
+    <span className={`flex items-center ${className}`}>
+      <div style={{ perspective: "500px" }} className="animate-[logoPop_0.7s_ease-out_both]">
+        <div
+          ref={ref}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+            transition: "transform 150ms ease-out",
+            transformStyle: "preserve-3d",
+          }}
+          className="relative w-11 h-11"
+        >
+          <Image
+            src="/logo.png"
+            alt="Maverick Minds, Inc."
+            fill
+            priority
+            className="object-contain drop-shadow-lg rounded-md"
+          />
+        </div>
+      </div>
     </span>
   );
 }

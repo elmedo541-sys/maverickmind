@@ -48,6 +48,9 @@ export default function Logo({ className = "" }: { className?: string }) {
           />
         </div>
       </div>
+      <span className="text-xl font-bold tracking-wide ml-3">
+        MAVERICK MINDS, INC.
+      </span>
     </span>
   );
 }

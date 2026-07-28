@@ -8,3 +8,17 @@ body {
   background-size: 22px 22px;
   color: #333;
 }
+
+@keyframes float-icon {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-icon {
+  animation: float-icon 3s ease-in-out infinite;
+}

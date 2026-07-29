@@ -68,14 +68,6 @@ export default function ProductsDropdown({
         }`}
       >
         <div className="bg-white text-navy rounded-lg shadow-lg py-2">
-        <Link
-          href="/products"
-          onClick={closeAll}
-          className="block px-4 py-2 text-sm font-semibold hover:bg-gray-50"
-        >
-          All Products
-        </Link>
-        {categories.length > 0 && <div className="border-t my-1" />}
         {categories.map((c) => (
           <div key={c.id} onMouseEnter={() => setExpandedCategory(c.id)}>
             <div className="flex items-center justify-between hover:bg-gray-50">

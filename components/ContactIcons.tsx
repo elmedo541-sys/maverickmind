@@ -46,8 +46,8 @@ export default function ContactIcons({
           </svg>
         </a>
       )}
-
       {viberUrl && (
+        
           href={viberUrl}
           title="Chat on Viber"
           className="w-14 h-14 rounded-full bg-purple-600 hover:bg-purple-700 transition transform hover:scale-110 flex items-center justify-center shadow-md"

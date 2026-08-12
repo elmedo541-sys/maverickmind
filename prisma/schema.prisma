@@ -75,6 +75,16 @@ model Slide {
   @@map("slides")
 }
 
+model SiteSettings {
+  id           Int      @id @default(1)
+  contactEmail String?  @map("contact_email")
+  messengerUrl String?  @map("messenger_url")
+  viberUrl     String?  @map("viber_url")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
 model Inquiry {
   id               Int      @id @default(autoincrement())
   name             String

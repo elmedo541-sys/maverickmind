@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { Resend } from "resend";
 
 export type ContactState = {
   success: boolean;
@@ -54,6 +55,31 @@ export async function sendMessage(
       contactDetail: contactDetail || null,
     },
   });
+
+  // Send a real email notification, if an admin contact email is set
+  try {
+    const settings = await prisma.siteSettings.findUnique({ where: { id: 1 } });
+    const adminEmail = settings?.contactEmail;
+
+    if (adminEmail && process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: "MaverickMind Website <onboarding@resend.dev>",
+        to: adminEmail,
+        replyTo: email,
+        subject: `New inquiry from ${name}`,
+        text: `Name: ${name}
+Email: ${email}
+Preferred contact: ${preferredContact}${contactDetail ? ` (${contactDetail})` : ""}
+
+Message:
+${message}`,
+      });
+    }
+  } catch (e) {
+    // Don't fail the form submission just because the email notification failed
+    console.error("Failed to send email notification:", e);
+  }
 
   return { success: true, error: "" };
 }

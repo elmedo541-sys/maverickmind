@@ -179,7 +179,6 @@ export default function AboutPage() {
                 Door 2, G. K. Chua Bldg., Lopez Jaena Street, Subangdaku,
                 Mandaue City 6014, Philippines
               </p>
-
             </div>
             <div className="bg-white rounded-lg shadow-sm p-5">
               <h3 className="font-semibold text-navy mb-2">CDO Office</h3>
@@ -187,10 +186,10 @@ export default function AboutPage() {
                 J.P. Borja Extension, Barangay Gusa, Cagayan De Oro City 9000,
                 Philippines
               </p>
-    
             </div>
           </div>
         </section>
       </FadeIn>
-  )
+    </div>
+  );
 }

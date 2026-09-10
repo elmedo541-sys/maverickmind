@@ -15,8 +15,8 @@ const GENERIC_HINT =
 export default function InstallAppButton({
   variant = "icon",
 }: {
-  /** "icon" = compact icon-only button for the navbar. "row" = full-width row for the mobile menu list. "banner" = standalone card for page content. */
-  variant?: "icon" | "row" | "banner";
+  /** "icon" = compact icon-only button for the navbar. "row" = full-width row for the mobile menu list. "banner" = standalone card for page content. "footer" = inline text link for the site footer. */
+  variant?: "icon" | "row" | "banner" | "footer";
 }) {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -78,6 +78,26 @@ export default function InstallAppButton({
       />
     </svg>
   );
+
+  if (variant === "footer") {
+    return (
+      <div className="relative flex justify-center">
+        <button
+          type="button"
+          onClick={handleClick}
+          className="flex items-center gap-1.5 hover:text-blue-300 transition"
+        >
+          {icon}
+          Install App
+        </button>
+        {showHint && (
+          <div className="absolute bottom-full mb-2 w-64 px-3 py-2 rounded bg-white text-navy text-xs shadow-lg z-50">
+            {hintText}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (variant === "banner") {
     return (

@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import HeroCarousel from "@/components/HeroCarousel";
-import InstallAppButton from "@/components/InstallAppButton";
 
 const CATEGORY_TILES = [
   {
@@ -208,12 +207,6 @@ export default async function HomePage() {
             ))}
           </div>
         )}
-      </section>
-
-      <section className="max-w-6xl mx-auto px-6 mt-4 mb-16">
-        <FadeIn>
-          <InstallAppButton variant="banner" />
-        </FadeIn>
       </section>
     </div>
   );

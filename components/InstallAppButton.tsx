@@ -10,8 +10,8 @@ interface BeforeInstallPromptEvent extends Event {
 export default function InstallAppButton({
   variant = "icon",
 }: {
-  /** "icon" = compact icon-only button for the navbar. "row" = full-width row for the mobile menu list. */
-  variant?: "icon" | "row";
+  /** "icon" = compact icon-only button for the navbar. "row" = full-width row for the mobile menu list. "banner" = standalone card for page content. */
+  variant?: "icon" | "row" | "banner";
 }) {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -76,6 +76,38 @@ export default function InstallAppButton({
       />
     </svg>
   );
+
+  if (variant === "banner") {
+    return (
+      <div className="rounded-lg bg-navy text-white p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center justify-center w-11 h-11 rounded-full bg-white/10 shrink-0">
+            {icon}
+          </span>
+          <div>
+            <p className="font-semibold">Install the Maverick Minds app</p>
+            <p className="text-sm text-gray-300">
+              Add it to your home screen for quick, app-like access.
+            </p>
+          </div>
+        </div>
+        <div className="relative shrink-0">
+          <button
+            type="button"
+            onClick={handleClick}
+            className="px-5 py-2.5 rounded-md bg-white text-navy font-semibold text-sm hover:bg-gray-100 transition"
+          >
+            Install App
+          </button>
+          {showIOSHint && (
+            <div className="absolute right-0 top-full mt-2 w-56 px-3 py-2 rounded bg-white text-navy text-xs shadow-lg z-50">
+              Tap the Share icon in Safari, then choose &quot;Add to Home Screen&quot;.
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (variant === "row") {
     return (

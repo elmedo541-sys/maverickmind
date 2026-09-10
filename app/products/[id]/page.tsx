@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ProductGallery from "@/components/ProductGallery";
 import ProductCard from "@/components/ProductCard";
-import { formatPrice } from "@/lib/formatPrice";
 import FadeIn from "@/components/FadeIn";
 
 export async function generateMetadata({
@@ -87,10 +86,7 @@ export default async function ProductDetailPage({
                 Model: {product.modelNumber}
               </p>
             )}
-            <p className="text-2xl font-bold text-blue-700 mb-4">
-              ₱{formatPrice(product.price.toString())}
-            </p>
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+            <p className="text-gray-700 leading-relaxed whitespace-pre-line mt-4">
               {product.description}
             </p>
 
@@ -115,7 +111,6 @@ export default async function ProductDetailPage({
                 <ProductCard
                   id={p.id}
                   productName={p.productName}
-                  price={p.price.toString()}
                   image={p.images[0] ?? null}
                   categoryName={p.category?.categoryName}
                   brandName={p.brand?.brandName}

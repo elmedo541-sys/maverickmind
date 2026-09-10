@@ -1,11 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { formatPrice } from "@/lib/formatPrice";
 
 type ProductCardProps = {
   id: number;
   productName: string;
-  price: number | string;
   image: string | null;
   categoryName?: string | null;
   brandName?: string | null;
@@ -15,7 +13,6 @@ type ProductCardProps = {
 export default function ProductCard({
   id,
   productName,
-  price,
   image,
   categoryName,
   brandName,
@@ -54,8 +51,7 @@ export default function ProductCard({
           </p>
         )}
         <h3 className="font-semibold text-navy line-clamp-2">{productName}</h3>
-        <div className="flex items-center justify-between mt-1">
-          <p className="text-blue-700 font-bold">₱{formatPrice(price)}</p>
+        <div className="flex items-center justify-end mt-2">
           <span className="text-xs text-gray-400 group-hover:text-blue-700 transition">
             View &rarr;
           </span>

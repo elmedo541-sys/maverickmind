@@ -179,18 +179,7 @@ export default function AboutPage() {
                 Door 2, G. K. Chua Bldg., Lopez Jaena Street, Subangdaku,
                 Mandaue City 6014, Philippines
               </p>
-              <p className="text-gray-700 text-sm mt-2">
-                Tel: +63 32 3461223 · 09985398334 · 09985834659
-              </p>
-              <p className="text-gray-700 text-sm">
-                Email:{" "}
-                <a
-                  href="mailto:maverickminds24@gmail.com"
-                  className="text-blue-700 hover:underline"
-                >
-                  maverickminds24@gmail.com
-                </a>
-              </p>
+
             </div>
             <div className="bg-white rounded-lg shadow-sm p-5">
               <h3 className="font-semibold text-navy mb-2">CDO Office</h3>
@@ -198,22 +187,10 @@ export default function AboutPage() {
                 J.P. Borja Extension, Barangay Gusa, Cagayan De Oro City 9000,
                 Philippines
               </p>
-              <p className="text-gray-700 text-sm mt-2">
-                Cel: 09985834657 · Viber: 09255864638
-              </p>
-              <p className="text-gray-700 text-sm">
-                Email:{" "}
-                <a
-                  href="mailto:maverickmindssales@gmail.com"
-                  className="text-blue-700 hover:underline"
-                >
-                  maverickmindssales@gmail.com
-                </a>
-              </p>
+    
             </div>
           </div>
         </section>
       </FadeIn>
-    </div>
-  );
+  )
 }

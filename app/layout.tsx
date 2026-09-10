@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RegisterServiceWorker from "@/components/RegisterServiceWorker";
 
 export const metadata: Metadata = {
   title: {
@@ -13,6 +14,20 @@ export const metadata: Metadata = {
   verification: {
     google: "R70V4WcDk0h2fbA8VTj3Dk6tMtoHz8lnWA0ZurrA3eM",
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Maverick Minds",
+  },
+  formatDetection: {
+    telephone: true,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0b1f3a",
 };
 
 export default function RootLayout({
@@ -23,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans">
+        <RegisterServiceWorker />
         <Navbar />
         <main className="min-h-[70vh]">{children}</main>
         <Footer />

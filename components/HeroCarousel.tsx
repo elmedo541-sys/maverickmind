@@ -17,11 +17,11 @@ function IntroSlide({ playKey }: { playKey: number }) {
   return (
     <div
       key={playKey}
-      className="flex flex-col items-center text-center px-6"
+      className="flex flex-col items-center text-center px-14 sm:px-16 md:px-6"
     >
       <div className="relative mb-6">
         <span className="absolute inset-0 rounded-full bg-blue-400/30 animate-ping" />
-        <div className="relative w-24 h-24 animate-[logoPop_0.7s_ease-out_both]">
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 animate-[logoPop_0.7s_ease-out_both]">
           <Image
             src="/logo.png"
             alt="Maverick Minds, Inc."
@@ -32,10 +32,10 @@ function IntroSlide({ playKey }: { playKey: number }) {
           />
         </div>
       </div>
-      <h2 className="text-3xl md:text-5xl font-bold text-white animate-[fadeInUp_0.6s_ease-out_0.3s_both]">
+      <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white animate-[fadeInUp_0.6s_ease-out_0.3s_both]">
         MAVERICK MINDS, INC.
       </h2>
-      <p className="text-blue-200 mt-3 text-lg animate-[fadeInUp_0.6s_ease-out_0.6s_both]">
+      <p className="text-blue-200 mt-3 text-sm sm:text-base md:text-lg animate-[fadeInUp_0.6s_ease-out_0.6s_both]">
         Security &amp; Communication Solutions
       </p>
     </div>
@@ -77,7 +77,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative w-full aspect-[21/9] min-h-[220px] max-h-[560px]">
+      <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] min-h-[300px] max-h-[560px]">
         {/* Slide 0: animated brand intro */}
         <div
           className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
@@ -125,20 +125,20 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
 
               {hasText && (
                 <div className="absolute inset-0 flex items-center">
-                  <div className="max-w-6xl mx-auto px-6 w-full">
+                  <div className="max-w-6xl mx-auto px-14 sm:px-16 md:px-6 w-full">
                     <div className="max-w-md text-white">
-                      <h2 className="text-2xl md:text-4xl font-bold mb-3 leading-tight">
+                      <h2 className="text-lg sm:text-2xl md:text-4xl font-bold mb-2 sm:mb-3 leading-tight">
                         {slide.title}
                       </h2>
                       {slide.subtitle && (
-                        <p className="text-lg text-blue-200 mb-6">
+                        <p className="text-xs sm:text-sm md:text-lg text-blue-200 mb-3 sm:mb-6 line-clamp-2 sm:line-clamp-none">
                           {slide.subtitle}
                         </p>
                       )}
                       {slide.linkUrl && (
                         <Link
                           href={slide.linkUrl}
-                          className="inline-block bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+                          className="inline-block bg-white text-navy px-4 py-2 sm:px-6 sm:py-3 rounded text-sm sm:text-base font-semibold hover:bg-gray-100 transition transform hover:scale-105"
                         >
                           {slide.linkLabel || "Learn More"}
                         </Link>
@@ -158,7 +158,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
             type="button"
             onClick={prev}
             aria-label="Previous slide"
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-white/15 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center transition"
+            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 bg-white/15 hover:bg-white/30 text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M11 3L5 9L11 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -168,7 +168,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
             type="button"
             onClick={next}
             aria-label="Next slide"
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-white/15 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center transition"
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 bg-white/15 hover:bg-white/30 text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M7 3L13 9L7 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

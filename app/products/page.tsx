@@ -66,7 +66,7 @@ export default async function ProductsPage({
                 name="search"
                 placeholder="Search products..."
                 defaultValue={search}
-                className="border rounded px-3 py-2 text-sm flex-1 sm:w-64 transition focus:ring-2 focus:ring-blue-300 outline-none"
+                className="border rounded px-3 py-2 text-base sm:text-sm flex-1 sm:w-64 transition focus:ring-2 focus:ring-blue-300 outline-none"
               />
               <button
                 type="submit"

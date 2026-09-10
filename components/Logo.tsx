@@ -36,7 +36,7 @@ export default function Logo({ className = "" }: { className?: string }) {
             transition: "transform 150ms ease-out",
             transformStyle: "preserve-3d",
           }}
-          className="relative w-11 h-11"
+          className="relative w-9 h-9 sm:w-11 sm:h-11"
         >
           <Image
             src="/logo.png"
@@ -48,7 +48,7 @@ export default function Logo({ className = "" }: { className?: string }) {
           />
         </div>
       </div>
-      <span className="text-xl font-bold tracking-wide ml-3">
+      <span className="text-base sm:text-lg md:text-xl font-bold tracking-wide ml-2 sm:ml-3">
         MAVERICK MINDS, INC.
       </span>
     </span>

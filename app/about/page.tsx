@@ -39,8 +39,8 @@ export default function AboutPage() {
       <FadeIn>
         <div className="rounded-2xl overflow-hidden border border-white/20 shadow-lg">
           {/* Header block */}
-          <div className="bg-[#39456b] px-8 py-10">
-            <div className="flex items-center gap-5">
+          <div className="bg-[#39456b] px-5 py-8 sm:px-8 sm:py-10">
+            <div className="flex flex-col text-center sm:flex-row sm:text-left items-center gap-4 sm:gap-5">
               <div className="relative w-16 h-16 shrink-0 rounded-md overflow-hidden bg-[#2c3654]">
                 <Image
                   src="/logo.png"
@@ -64,7 +64,7 @@ export default function AboutPage() {
           </div>
 
           {/* Body block */}
-          <div className="bg-[#59648f] px-8 py-10">
+          <div className="bg-[#59648f] px-5 py-8 sm:px-8 sm:py-10">
             <FadeIn delay={80}>
               <h2 className="text-lg font-bold text-white tracking-wide mb-3">
                 WHO WE ARE
@@ -146,7 +146,7 @@ export default function AboutPage() {
 
           {/* Footer block */}
           <FadeIn delay={180}>
-            <div className="bg-[#39456b] px-8 py-8 text-center border-t border-white/10">
+            <div className="bg-[#39456b] px-5 py-8 sm:px-8 text-center border-t border-white/10">
               <p className="text-white font-semibold mb-1">
                 Serving customers and partners across the Philippines.
               </p>
@@ -155,7 +155,14 @@ export default function AboutPage() {
                 the Technology.
               </p>
               <p className="text-gray-100 text-sm font-medium">
-                0998 583 4657 &nbsp;|&nbsp; Viber 0925 586 4638 &nbsp;|&nbsp;{" "}
+                <a href="tel:+639985834657" className="hover:underline">
+                  0998 583 4657
+                </a>
+                {" "}&nbsp;|&nbsp; Viber{" "}
+                <a href="viber://chat?number=%2B639255864638" className="hover:underline">
+                  0925 586 4638
+                </a>
+                {" "}&nbsp;|&nbsp;{" "}
                 <a
                   href="mailto:maverickminds.sales26@gmail.com"
                   className="text-blue-300 hover:underline"
@@ -179,12 +186,54 @@ export default function AboutPage() {
                 Door 2, G. K. Chua Bldg., Lopez Jaena Street, Subangdaku,
                 Mandaue City 6014, Philippines
               </p>
+              <p className="text-gray-700 text-sm mt-2">
+                Tel:{" "}
+                <a href="tel:+63323461223" className="hover:underline">
+                  +63 32 3461223
+                </a>{" "}
+                ·{" "}
+                <a href="tel:+639985398334" className="hover:underline">
+                  09985398334
+                </a>{" "}
+                ·{" "}
+                <a href="tel:+639985834659" className="hover:underline">
+                  09985834659
+                </a>
+              </p>
+              <p className="text-gray-700 text-sm">
+                Email:{" "}
+                <a
+                  href="mailto:maverickminds24@gmail.com"
+                  className="text-blue-700 hover:underline"
+                >
+                  maverickminds24@gmail.com
+                </a>
+              </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm p-5">
               <h3 className="font-semibold text-navy mb-2">CDO Office</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 J.P. Borja Extension, Barangay Gusa, Cagayan De Oro City 9000,
                 Philippines
+              </p>
+              <p className="text-gray-700 text-sm mt-2">
+                Cel:{" "}
+                <a href="tel:+639985834657" className="hover:underline">
+                  09985834657
+                </a>{" "}
+                · Viber:{" "}
+                <a href="viber://chat?number=%2B639255864638" className="hover:underline">
+                  09255864638
+                </a>
+              </p>
+              <p className="text-gray-700 text-sm">
+                Email:{" "}
+                <a
+                  href="mailto:maverickmindssales@gmail.com"
+                  className="text-blue-700 hover:underline"
+                >
+                  maverickmindssales@gmail.com
+                </a>
               </p>
             </div>
           </div>

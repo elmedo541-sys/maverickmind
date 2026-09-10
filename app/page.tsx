@@ -138,7 +138,7 @@ export default async function HomePage() {
         }))}
       />
 
-      <section className="max-w-6xl mx-auto px-6 py-14">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-14">
         <FadeIn>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-navy">Featured Products</h2>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import ProductsDropdown from "./ProductsDropdown";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
+import InstallAppButton from "./InstallAppButton";
 import { getNavCategories } from "@/lib/cachedQueries";
 
 const links = [
@@ -20,25 +21,31 @@ export default async function Navbar() {
             <Logo />
           </Link>
 
-          <nav className="hidden md:block">
-            <ul className="flex items-center gap-6 text-sm font-medium">
-              <li>
-                <Link href="/" className="hover:text-blue-300 transition">
-                  Home
-                </Link>
-              </li>
-              <ProductsDropdown categories={categories} />
-              {links.slice(1).map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-blue-300 transition">
-                    {link.label}
+          <div className="flex items-center gap-2">
+            <nav className="hidden md:block">
+              <ul className="flex items-center gap-6 text-sm font-medium">
+                <li>
+                  <Link href="/" className="hover:text-blue-300 transition">
+                    Home
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </nav>
+                <ProductsDropdown categories={categories} />
+                {links.slice(1).map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="hover:text-blue-300 transition">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <MobileMenu categories={categories} />
+            <div className="hidden md:block">
+              <InstallAppButton variant="icon" />
+            </div>
+
+            <MobileMenu categories={categories} />
+          </div>
         </div>
       </div>
     </header>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import InstallAppButton from "./InstallAppButton";
 
 type Brand = { id: number; brandName: string };
 type Category = { id: number; categoryName: string; brands: Brand[] };
@@ -175,6 +176,9 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
               </Link>
             </li>
           ))}
+          <li className="pt-1 mt-1 border-t border-white/10">
+            <InstallAppButton variant="row" />
+          </li>
         </ul>
       </div>
     </div>

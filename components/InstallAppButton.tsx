@@ -7,6 +7,11 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+const IOS_HINT =
+  'Tap the Share icon in Safari, then choose "Add to Home Screen".';
+const GENERIC_HINT =
+  'Look for an install icon in your browser\u2019s address bar, or open your browser menu and choose "Install app" / "Add to Home Screen".';
+
 export default function InstallAppButton({
   variant = "icon",
 }: {
@@ -16,30 +21,24 @@ export default function InstallAppButton({
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [showIOSHint, setShowIOSHint] = useState(false);
+  const [installed, setInstalled] = useState(false);
+  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       (window.navigator as unknown as { standalone?: boolean }).standalone === true;
 
-    if (isStandalone) return; // already installed, nothing to show
-
-    const iOSDevice = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-    if (iOSDevice) {
-      setIsIOS(true);
-      setVisible(true);
-    }
+    setInstalled(isStandalone);
+    setIsIOS(/iphone|ipad|ipod/i.test(window.navigator.userAgent));
 
     function handleBeforeInstallPrompt(e: Event) {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setVisible(true);
     }
 
     function handleAppInstalled() {
-      setVisible(false);
+      setInstalled(true);
       setDeferredPrompt(null);
     }
 
@@ -51,19 +50,22 @@ export default function InstallAppButton({
     };
   }, []);
 
-  if (!visible) return null;
+  // Only hide once we're sure the app is already installed. Otherwise the
+  // button stays visible and falls back to instructions if the browser
+  // hasn't offered its native prompt yet.
+  if (installed) return null;
 
   async function handleClick() {
-    if (isIOS) {
-      setShowIOSHint((s) => !s);
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      setDeferredPrompt(null);
       return;
     }
-    if (!deferredPrompt) return;
-    await deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    setDeferredPrompt(null);
-    setVisible(false);
+    setShowHint((s) => !s);
   }
+
+  const hintText = isIOS ? IOS_HINT : GENERIC_HINT;
 
   const icon = (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -91,17 +93,17 @@ export default function InstallAppButton({
             </p>
           </div>
         </div>
-        <div className="relative shrink-0">
+        <div className="relative shrink-0 w-full sm:w-auto">
           <button
             type="button"
             onClick={handleClick}
-            className="px-5 py-2.5 rounded-md bg-white text-navy font-semibold text-sm hover:bg-gray-100 transition"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-md bg-white text-navy font-semibold text-sm hover:bg-gray-100 transition"
           >
             Install App
           </button>
-          {showIOSHint && (
-            <div className="absolute right-0 top-full mt-2 w-56 px-3 py-2 rounded bg-white text-navy text-xs shadow-lg z-50">
-              Tap the Share icon in Safari, then choose &quot;Add to Home Screen&quot;.
+          {showHint && (
+            <div className="absolute right-0 top-full mt-2 w-64 px-3 py-2 rounded bg-white text-navy text-xs shadow-lg z-50">
+              {hintText}
             </div>
           )}
         </div>
@@ -120,9 +122,9 @@ export default function InstallAppButton({
           {icon}
           Install App
         </button>
-        {showIOSHint && (
+        {showHint && (
           <div className="mx-2 mb-2 px-3 py-2 rounded bg-white/10 text-xs text-gray-200">
-            Tap the Share icon in Safari, then choose &quot;Add to Home Screen&quot;.
+            {hintText}
           </div>
         )}
       </div>
@@ -140,9 +142,9 @@ export default function InstallAppButton({
       >
         {icon}
       </button>
-      {showIOSHint && (
-        <div className="absolute right-0 top-full mt-2 w-56 px-3 py-2 rounded bg-navy border border-white/10 text-xs text-gray-200 shadow-lg z-50">
-          Tap the Share icon in Safari, then choose &quot;Add to Home Screen&quot;.
+      {showHint && (
+        <div className="absolute right-0 top-full mt-2 w-64 px-3 py-2 rounded bg-navy border border-white/10 text-xs text-gray-200 shadow-lg z-50">
+          {hintText}
         </div>
       )}
     </div>

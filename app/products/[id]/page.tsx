@@ -56,37 +56,39 @@ export default async function ProductDetailPage({
         &larr; Back to Products
       </Link>
 
-      <div className="grid md:grid-cols-2 gap-10 mt-6">
-        <FadeIn>
-          <ProductGallery images={product.images} productName={product.productName} />
-        </FadeIn>
+      <div className="bg-[#39456b] rounded-lg px-5 py-8 sm:px-8 sm:py-10 mt-6">
+        <div className="grid md:grid-cols-2 gap-10">
+          <FadeIn>
+            <ProductGallery images={product.images} productName={product.productName} />
+          </FadeIn>
 
-        <FadeIn delay={120}>
-          <div>
-            <h1 className="text-2xl font-bold text-navy mb-2">
-              {product.productName}
-            </h1>
-            <p className="text-gray-500 text-sm mb-1">
-              {product.category?.categoryName || "Uncategorized"}
-              {product.brand ? ` · ${product.brand.brandName}` : ""}
-            </p>
-            {product.modelNumber && (
-              <p className="text-gray-500 text-sm mb-4">
-                Model: {product.modelNumber}
+          <FadeIn delay={120}>
+            <div>
+              <h1 className="text-2xl font-bold text-white mb-2">
+                {product.productName}
+              </h1>
+              <p className="text-gray-300 text-sm mb-1">
+                {product.category?.categoryName || "Uncategorized"}
+                {product.brand ? ` · ${product.brand.brandName}` : ""}
               </p>
-            )}
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line mt-4">
-              {product.description}
-            </p>
+              {product.modelNumber && (
+                <p className="text-gray-300 text-sm mb-4">
+                  Model: {product.modelNumber}
+                </p>
+              )}
+              <p className="text-gray-100 leading-relaxed whitespace-pre-line mt-4">
+                {product.description}
+              </p>
 
-            <Link
-              href="/contact"
-              className="inline-block mt-8 bg-navy text-white px-6 py-3 rounded font-semibold hover:bg-navyLight transition transform hover:scale-105"
-            >
-              Inquire About This Product
-            </Link>
-          </div>
-        </FadeIn>
+              <Link
+                href="/contact"
+                className="inline-block mt-8 bg-white text-navy px-6 py-3 rounded font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+              >
+                Inquire About This Product
+              </Link>
+            </div>
+          </FadeIn>
+        </div>
       </div>
 
       {relatedProducts.length > 0 && (

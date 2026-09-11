@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
 import FadeIn from "@/components/FadeIn";
+import { getServices } from "@/lib/server/services";
 
 export const metadata = { title: "Services" };
 
 export default async function ServicesPage() {
-  const services = await prisma.service.findMany({ orderBy: { id: "desc" } });
+  const services = await getServices();
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">

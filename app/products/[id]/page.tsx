@@ -1,10 +1,14 @@
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ProductGallery from "@/components/ProductGallery";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
+import {
+  getProductById,
+  getProductMetaById,
+  getRelatedProducts,
+} from "@/lib/server/products";
 
 export async function generateMetadata({
   params,
@@ -14,8 +18,8 @@ export async function generateMetadata({
   const id = Number(params.id);
   if (Number.isNaN(id)) return {};
 
-  const product = await prisma.product.findUnique({ where: { id } });
-  if (!product || !product.visible) return {};
+  const product = await getProductMetaById(id);
+  if (!product) return {};
 
   const description = product.description.slice(0, 155);
 
@@ -38,25 +42,10 @@ export default async function ProductDetailPage({
   const id = Number(params.id);
   if (Number.isNaN(id)) notFound();
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-    include: { category: true, brand: true },
-  });
+  const product = await getProductById(id);
+  if (!product) notFound();
 
-  if (!product || !product.visible) notFound();
-
-  const relatedProducts = product.categoryId
-    ? await prisma.product.findMany({
-        where: {
-          categoryId: product.categoryId,
-          id: { not: product.id },
-          visible: true,
-        },
-        include: { category: true, brand: true },
-        orderBy: { id: "desc" },
-        take: 4,
-      })
-    : [];
+  const relatedProducts = await getRelatedProducts(product.categoryId, product.id);
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">

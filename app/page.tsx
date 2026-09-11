@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import HeroCarousel from "@/components/HeroCarousel";
+import { getActiveSlides } from "@/lib/server/slides";
+import { getFeaturedProducts, getCategoryTileMatches } from "@/lib/server/products";
 
 const CATEGORY_TILES = [
   {
@@ -102,27 +103,9 @@ const CATEGORY_TILES = [
 
 export default async function HomePage() {
   const [slides, products, tileCategories] = await Promise.all([
-    prisma.slide.findMany({
-      where: { active: true },
-      orderBy: { position: "asc" },
-    }),
-    prisma.product.findMany({
-      where: { featured: true, visible: true },
-      orderBy: { id: "desc" },
-      take: 6,
-      include: { category: true, brand: true },
-    }),
-    Promise.all(
-      CATEGORY_TILES.map((tile) =>
-        prisma.category.findFirst({
-          where: {
-            OR: tile.keywords.map((keyword) => ({
-              categoryName: { contains: keyword, mode: "insensitive" as const },
-            })),
-          },
-        })
-      )
-    ),
+    getActiveSlides(),
+    getFeaturedProducts(6),
+    getCategoryTileMatches(CATEGORY_TILES.map((tile) => tile.keywords)),
   ]);
 
   return (

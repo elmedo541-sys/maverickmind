@@ -1,12 +1,12 @@
 import ContactForm from "./ContactForm";
 import ContactIcons from "@/components/ContactIcons";
 import FadeIn from "@/components/FadeIn";
-import { prisma } from "@/lib/prisma";
+import { getSiteSettings } from "@/lib/server/settings";
 
 export const metadata = { title: "Contact" };
 
 export default async function ContactPage() {
-  const settings = await prisma.siteSettings.findUnique({ where: { id: 1 } });
+  const settings = await getSiteSettings();
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-14">

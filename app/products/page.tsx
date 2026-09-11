@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
-import type { Prisma } from "@prisma/client";
+import { searchProducts, getBrowseCategories } from "@/lib/server/products";
 
 export const metadata = { title: "Products" };
 
@@ -19,40 +18,12 @@ export default async function ProductsPage({
 
   const isBrowsing = !search && !categoryId && !brandId && !showAll;
 
-  const where: Prisma.ProductWhereInput = {
-    visible: true,
-    ...(search ? { productName: { contains: search, mode: "insensitive" } } : {}),
-    ...(categoryId ? { categoryId } : {}),
-    ...(brandId ? { brandId } : {}),
-  };
-
   const [products, categoryTiles] = await Promise.all([
-    isBrowsing
-      ? Promise.resolve([])
-      : prisma.product.findMany({
-          where,
-          include: { category: true, brand: true },
-          orderBy: { id: "desc" },
-        }),
-    isBrowsing
-      ? prisma.category.findMany({
-          orderBy: { categoryName: "asc" },
-          include: {
-            _count: { select: { products: { where: { visible: true } } } },
-            products: {
-              where: { images: { isEmpty: false }, visible: true },
-              take: 1,
-              orderBy: { id: "desc" },
-              select: { images: true },
-            },
-          },
-        })
-      : Promise.resolve([]),
+    isBrowsing ? Promise.resolve([]) : searchProducts({ search, categoryId, brandId }),
+    isBrowsing ? getBrowseCategories() : Promise.resolve([]),
   ]);
 
-  const nonEmptyCategoryTiles = categoryTiles.filter(
-    (c) => c._count.products > 0
-  );
+  const nonEmptyCategoryTiles = categoryTiles;
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">

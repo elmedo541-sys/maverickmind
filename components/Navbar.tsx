@@ -3,7 +3,7 @@ import ProductsDropdown from "./ProductsDropdown";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
 import InstallAppButton from "./InstallAppButton";
-import { getNavCategories } from "@/lib/cachedQueries";
+import { getNavCategories } from "@/lib/server/categories";
 
 const links = [
   { href: "/", label: "Home" },

@@ -186,54 +186,12 @@ export default function AboutPage() {
                 Door 2, G. K. Chua Bldg., Lopez Jaena Street, Subangdaku,
                 Mandaue City 6014, Philippines
               </p>
-              <p className="text-gray-700 text-sm mt-2">
-                Tel:{" "}
-                <a href="tel:+63323461223" className="hover:underline">
-                  +63 32 3461223
-                </a>{" "}
-                ·{" "}
-                <a href="tel:+639985398334" className="hover:underline">
-                  09985398334
-                </a>{" "}
-                ·{" "}
-                <a href="tel:+639985834659" className="hover:underline">
-                  09985834659
-                </a>
-              </p>
-              <p className="text-gray-700 text-sm">
-                Email:{" "}
-                <a
-                  href="mailto:maverickminds24@gmail.com"
-                  className="text-blue-700 hover:underline"
-                >
-                  maverickminds24@gmail.com
-                </a>
-              </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm p-5">
               <h3 className="font-semibold text-navy mb-2">CDO Office</h3>
               <p className="text-gray-700 text-sm leading-relaxed">
                 J.P. Borja Extension, Barangay Gusa, Cagayan De Oro City 9000,
                 Philippines
-              </p>
-              <p className="text-gray-700 text-sm mt-2">
-                Cel:{" "}
-                <a href="tel:+639985834657" className="hover:underline">
-                  09985834657
-                </a>{" "}
-                · Viber:{" "}
-                <a href="viber://chat?number=%2B639255864638" className="hover:underline">
-                  09255864638
-                </a>
-              </p>
-              <p className="text-gray-700 text-sm">
-                Email:{" "}
-                <a
-                  href="mailto:maverickmindssales@gmail.com"
-                  className="text-blue-700 hover:underline"
-                >
-                  maverickmindssales@gmail.com
-                </a>
               </p>
             </div>
           </div>

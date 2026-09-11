@@ -57,7 +57,7 @@ export default async function ProductDetailPage({
       </Link>
 
       <div className="bg-[#39456b] rounded-lg px-5 py-8 sm:px-8 sm:py-10 mt-6">
-        <div className="grid md:grid-cols-2 gap-10">
+        <div className="grid md:grid-cols-2 gap-10 items-start">
           <FadeIn>
             <ProductGallery images={product.images} productName={product.productName} />
           </FadeIn>

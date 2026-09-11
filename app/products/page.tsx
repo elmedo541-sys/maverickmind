@@ -27,36 +27,36 @@ export default async function ProductsPage({
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
-      <form>
-        <FadeIn>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-            <h1 className="text-3xl font-bold text-navy">Products</h1>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <input
-                type="text"
-                name="search"
-                placeholder="Search products..."
-                defaultValue={search}
-                className="border rounded px-3 py-2 text-base sm:text-sm flex-1 sm:w-64 transition focus:ring-2 focus:ring-blue-300 outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-navy text-white rounded px-4 py-2 text-sm font-medium hover:bg-navyLight transition transform hover:scale-105 whitespace-nowrap"
-              >
-                Search
-              </button>
+      <FadeIn>
+        <div className="bg-[#39456b] rounded-lg px-5 py-8 sm:px-8 sm:py-10 mb-8">
+          <form>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <h1 className="text-3xl font-bold text-white">Products</h1>
+              <div className="flex gap-2 w-full sm:w-auto">
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Search products..."
+                  defaultValue={search}
+                  className="border-0 rounded px-3 py-2 text-base sm:text-sm flex-1 sm:w-64 transition focus:ring-2 focus:ring-blue-300 outline-none"
+                />
+                <button
+                  type="submit"
+                  className="bg-white text-navy rounded px-4 py-2 text-sm font-medium hover:bg-gray-100 transition transform hover:scale-105 whitespace-nowrap"
+                >
+                  Search
+                </button>
+              </div>
             </div>
-          </div>
-        </FadeIn>
-      </form>
+          </form>
 
-      <FadeIn delay={40}>
-        <Link
-          href="/products?all=1"
-          className="inline-block text-sm font-medium text-blue-700 hover:underline mb-10"
-        >
-          View All Products &rarr;
-        </Link>
+          <Link
+            href="/products?all=1"
+            className="inline-block text-sm font-medium text-blue-300 hover:underline"
+          >
+            View All Products &rarr;
+          </Link>
+        </div>
       </FadeIn>
 
       {isBrowsing && nonEmptyCategoryTiles.length > 0 && (

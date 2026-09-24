@@ -26,7 +26,7 @@ export default async function ProductsPage({
   const nonEmptyCategoryTiles = categoryTiles;
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12">
+    <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-12">
       <FadeIn>
         <div className="bg-[#39456b] rounded-lg px-5 py-8 sm:px-8 sm:py-10 mb-8">
           <form>
@@ -65,7 +65,7 @@ export default async function ProductsPage({
             <h2 className="text-lg font-semibold text-navy mb-4">
               Browse by Category
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
               {nonEmptyCategoryTiles.map((c, i) => {
                 const coverImage = c.products[0]?.images[0] ?? null;
                 return (
@@ -124,7 +124,7 @@ export default async function ProductsPage({
               </p>
             </FadeIn>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
               {products.map((p, i) => (
                 <FadeIn key={p.id} delay={Math.min(i, 8) * 60}>
                   <ProductCard

@@ -48,88 +48,109 @@ export default async function ProductDetailPage({
   const relatedProducts = await getRelatedProducts(product.categoryId, product.id);
 
   return (
-    <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 xl:px-10">
-      <FadeIn>
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 text-sm font-bold text-blue-700 transition hover:-translate-x-1"
-        >
-          <span aria-hidden="true">←</span> Back to Products
-        </Link>
-      </FadeIn>
+    <main className="w-full">
+      <div className="mx-auto w-full max-w-[1800px] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12 xl:px-10 2xl:px-12">
+        <FadeIn>
+          <Link
+            href="/products"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg px-1 text-sm font-bold text-blue-700 transition hover:-translate-x-1 hover:text-blue-800"
+          >
+            <span aria-hidden="true">←</span>
+            Back to Products
+          </Link>
+        </FadeIn>
 
-      <section className="mt-6 overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg">
-        <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
-          <FadeIn>
-            <div className="h-full bg-[#f6f7fb] p-5 sm:p-7 lg:p-9">
-              <ProductGallery images={product.images} productName={product.productName} />
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={100}>
-            <div className="flex h-full flex-col p-6 sm:p-8 lg:p-10 xl:p-12">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
-                {product.category?.categoryName || "Product"}
-                {product.brand ? ` · ${product.brand.brandName}` : ""}
-              </p>
-
-              <h1 className="mt-3 text-3xl font-bold leading-tight text-navy sm:text-4xl">
-                {product.productName}
-              </h1>
-
-              {product.modelNumber && (
-                <div className="mt-4 inline-flex w-fit rounded-full bg-[#f6f7fb] px-3 py-1.5 text-xs font-semibold text-gray-600">
-                  Model: {product.modelNumber}
+        <section className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-[#40517f] shadow-xl sm:mt-5 sm:rounded-3xl">
+          <div className="grid min-h-[620px] lg:grid-cols-[1.15fr_0.85fr] xl:min-h-[680px] xl:grid-cols-[1.2fr_0.8fr]">
+            <FadeIn>
+              <div className="flex h-full items-center bg-[#f6f7fb] p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
+                <div className="mx-auto w-full max-w-[920px]">
+                  <ProductGallery
+                    images={product.images}
+                    productName={product.productName}
+                  />
                 </div>
-              )}
+              </div>
+            </FadeIn>
 
-              <div className="mt-7 border-t border-gray-100 pt-7">
-                <h2 className="text-sm font-bold uppercase tracking-wide text-navy">Description</h2>
-                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-gray-600 sm:text-base">
-                  {product.description}
+            <FadeIn delay={100}>
+              <div className="flex h-full flex-col p-6 text-white sm:p-8 lg:p-10 xl:p-12 2xl:p-14">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-100 sm:text-sm">
+                  {product.category?.categoryName || "Product"}
+                  {product.brand ? ` · ${product.brand.brandName}` : ""}
                 </p>
+
+                <h1 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl xl:text-[3.25rem]">
+                  {product.productName}
+                </h1>
+
+                {product.modelNumber && (
+                  <div className="mt-5 inline-flex w-fit rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90">
+                    Model: {product.modelNumber}
+                  </div>
+                )}
+
+                <div className="mt-7 border-t border-white/15 pt-7 sm:mt-8 sm:pt-8">
+                  <h2 className="text-sm font-bold uppercase tracking-[0.14em] text-white">
+                    Product Details
+                  </h2>
+                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-white/85 sm:text-base sm:leading-8 lg:text-[17px]">
+                    {product.description}
+                  </p>
+                </div>
+
+                <div className="mt-auto pt-8 sm:pt-10">
+                  <Link
+                    href="/contact"
+                    className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-white px-7 py-3.5 text-sm font-bold text-navy shadow-md transition duration-300 hover:-translate-y-0.5 hover:bg-gray-100 hover:shadow-lg sm:w-auto sm:text-base"
+                  >
+                    Inquire About This Product
+                  </Link>
+                </div>
               </div>
-
-              <div className="mt-auto pt-8">
-                <Link
-                  href="/contact"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-md sm:w-auto"
-                >
-                  Inquire About This Product
-                </Link>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {relatedProducts.length > 0 && (
-        <section className="mt-14 lg:mt-16">
-          <FadeIn>
-            <div className="mb-7">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
-                You May Also Like
-              </p>
-              <h2 className="text-2xl font-bold text-navy sm:text-3xl">Related Products</h2>
-            </div>
-          </FadeIn>
-
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-5">
-            {relatedProducts.map((related, index) => (
-              <FadeIn key={related.id} delay={index * 55}>
-                <ProductCard
-                  id={related.id}
-                  productName={related.productName}
-                  image={related.images[0] ?? null}
-                  categoryName={related.category?.categoryName}
-                  brandName={related.brand?.brandName}
-                  featured={related.featured}
-                />
-              </FadeIn>
-            ))}
+            </FadeIn>
           </div>
         </section>
-      )}
-    </div>
+
+        {relatedProducts.length > 0 && (
+          <section className="mt-12 sm:mt-14 lg:mt-16">
+            <FadeIn>
+              <div className="mb-6 flex flex-col gap-2 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
+                    More From This Category
+                  </p>
+                  <h2 className="text-2xl font-bold text-navy sm:text-3xl lg:text-4xl">
+                    Related Products
+                  </h2>
+                </div>
+
+                <Link
+                  href={`/products?category=${product.categoryId}`}
+                  className="inline-flex min-h-11 items-center text-sm font-bold text-blue-700 hover:text-blue-800"
+                >
+                  View more products →
+                </Link>
+              </div>
+            </FadeIn>
+
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5 2xl:gap-6">
+              {relatedProducts.map((related, index) => (
+                <FadeIn key={related.id} delay={index * 55}>
+                  <ProductCard
+                    id={related.id}
+                    productName={related.productName}
+                    image={related.images[0] ?? null}
+                    categoryName={related.category?.categoryName}
+                    brandName={related.brand?.brandName}
+                    featured={related.featured}
+                  />
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </main>
   );
 }

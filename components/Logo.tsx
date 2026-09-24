@@ -4,9 +4,9 @@ export default function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`group flex min-w-0 items-center ${className}`}>
       <span className="relative shrink-0">
-        <span className="absolute inset-0 rounded-xl bg-blue-400/25 blur-md transition duration-500 group-hover:bg-blue-400/40" />
+        <span className="nav-logo-aura absolute inset-0 rounded-xl bg-blue-400/20 blur-md" />
 
-        <span className="logo-shine relative block h-9 w-9 overflow-hidden rounded-[10px] ring-1 ring-white/10 transition duration-300 group-hover:scale-105 group-hover:ring-blue-300/40 sm:h-10 sm:w-10">
+        <span className="nav-logo-motion relative block h-9 w-9 overflow-hidden rounded-[10px] ring-1 ring-white/10 transition duration-300 group-hover:ring-blue-300/40 sm:h-10 sm:w-10">
           <Image
             src="/logo.png"
             alt="Maverick Minds, Inc."

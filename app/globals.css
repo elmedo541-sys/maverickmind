@@ -55,54 +55,65 @@ textarea:focus-visible {
   outline: 2px solid #60a5fa;
 }
 
-@keyframes logo-float {
+@keyframes brand-motion {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-0.4deg);
+  }
+  25% {
+    transform: translate3d(3px, -4px, 0) rotate(0.2deg);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0) rotate(0.7deg);
+  }
+  75% {
+    transform: translate3d(-3px, -4px, 0) rotate(-0.1deg);
+  }
+}
+
+@keyframes brand-aura {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.56;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes brand-shadow {
+  0%,
+  100% {
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.24),
+      0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    box-shadow: 0 28px 68px rgba(0, 0, 0, 0.3),
+      0 0 30px rgba(59, 130, 246, 0.16);
+  }
+}
+
+@keyframes nav-logo-motion {
   0%,
   100% {
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-7px) scale(1.015);
+    transform: translateY(-2px) scale(1.025);
   }
 }
 
-@keyframes logo-glow {
+@keyframes nav-logo-aura {
   0%,
   100% {
-    opacity: 0.35;
-    transform: scale(0.94);
+    opacity: 0.18;
+    transform: scale(0.92);
   }
   50% {
-    opacity: 0.7;
-    transform: scale(1.04);
-  }
-}
-
-@keyframes logo-shine {
-  0% {
-    transform: translateX(-170%) rotate(18deg);
-  }
-  45%,
-  100% {
-    transform: translateX(220%) rotate(18deg);
-  }
-}
-
-@keyframes hero-orbit {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes hero-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(12px, -8px, 0);
+    opacity: 0.38;
+    transform: scale(1.05);
   }
 }
 
@@ -116,42 +127,29 @@ textarea:focus-visible {
   }
 }
 
-.logo-float {
-  animation: logo-float 4.6s ease-in-out infinite;
+.brand-motion {
+  animation: brand-motion 6.5s ease-in-out infinite;
   will-change: transform;
 }
 
-.logo-glow {
-  animation: logo-glow 3.8s ease-in-out infinite;
+.brand-aura {
+  animation: brand-aura 4.8s ease-in-out infinite;
   will-change: transform, opacity;
 }
 
-.logo-shine {
-  position: relative;
-  overflow: hidden;
+.brand-logo-frame {
+  animation: brand-shadow 4.8s ease-in-out infinite;
+  will-change: box-shadow;
 }
 
-.logo-shine::after {
-  content: "";
-  position: absolute;
-  inset: -35%;
-  width: 28%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.38),
-    transparent
-  );
-  animation: logo-shine 5.8s ease-in-out infinite;
-  pointer-events: none;
+.nav-logo-motion {
+  animation: nav-logo-motion 5s ease-in-out infinite;
+  will-change: transform;
 }
 
-.hero-orbit {
-  animation: hero-orbit 18s linear infinite;
-}
-
-.hero-drift {
-  animation: hero-drift 7s ease-in-out infinite;
+.nav-logo-aura {
+  animation: nav-logo-aura 5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .soft-pulse {

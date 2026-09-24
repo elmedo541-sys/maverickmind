@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -50,26 +50,22 @@ function IntroSlide({ playKey }: { playKey: number }) {
       </div>
 
       <div className="relative mx-auto flex w-full max-w-[360px] items-center justify-center md:max-w-lg md:justify-end">
-        <div className="logo-glow absolute h-52 w-52 rounded-full bg-blue-400/25 blur-3xl sm:h-64 sm:w-64 lg:h-72 lg:w-72" />
-        <div className="hero-drift absolute h-52 w-52 rounded-full border border-blue-300/15 sm:h-64 sm:w-64 lg:h-72 lg:w-72" />
-        <div className="hero-orbit absolute h-60 w-60 rounded-full border border-dashed border-white/10 sm:h-72 sm:w-72 lg:h-80 lg:w-80" />
+        <div className="brand-aura absolute h-56 w-56 rounded-full bg-blue-400/20 blur-3xl sm:h-64 sm:w-64 lg:h-72 lg:w-72" />
 
-        <div className="relative flex h-48 w-48 items-center justify-center sm:h-56 sm:w-56 lg:h-64 lg:w-64 animate-[logoPop_0.7s_ease-out_0.18s_both]">
-          <div className="logo-float relative flex h-full w-full items-center justify-center">
-            <div className="absolute inset-2 rounded-[2rem] bg-white/[0.04] shadow-[0_28px_70px_rgba(0,0,0,0.25)] backdrop-blur-sm" />
+        <div className="brand-motion relative flex h-48 w-48 items-center justify-center sm:h-56 sm:w-56 lg:h-64 lg:w-64">
+          <div className="absolute inset-4 rounded-[2rem] bg-white/[0.035] shadow-[0_26px_70px_rgba(0,0,0,0.26)] backdrop-blur-sm" />
 
-            <div className="logo-shine relative h-40 w-40 overflow-hidden rounded-[1.55rem] ring-1 ring-white/15 sm:h-48 sm:w-48 sm:rounded-[1.8rem] lg:h-56 lg:w-56">
-              <Image
-                src="/logo.png"
-                alt="Maverick Minds, Inc."
-                fill
-                priority
-                quality={100}
-                sizes="(max-width: 640px) 160px, (max-width: 1024px) 192px, 224px"
-                draggable={false}
-                className="select-none object-cover scale-[1.14]"
-              />
-            </div>
+          <div className="brand-logo-frame relative h-40 w-40 overflow-hidden rounded-[1.55rem] ring-1 ring-white/15 sm:h-48 sm:w-48 sm:rounded-[1.8rem] lg:h-56 lg:w-56">
+            <Image
+              src="/logo.png"
+              alt="Maverick Minds, Inc."
+              fill
+              priority
+              quality={100}
+              sizes="(max-width: 640px) 160px, (max-width: 1024px) 192px, 224px"
+              draggable={false}
+              className="select-none object-cover scale-[1.14]"
+            />
           </div>
         </div>
       </div>
@@ -79,7 +75,6 @@ function IntroSlide({ playKey }: { playKey: number }) {
 
 export default function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [introKey, setIntroKey] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -96,10 +91,11 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
   const prev = useCallback(() => goTo(active - 1), [active, goTo]);
 
   useEffect(() => {
-    if (paused || total <= 1) return;
+    if (total <= 1) return;
+
     const timer = window.setInterval(next, 6000);
     return () => window.clearInterval(timer);
-  }, [paused, next, total]);
+  }, [next, total]);
 
   useEffect(() => {
     if (active === 0) {
@@ -109,14 +105,12 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
 
   function handleTouchStart(event: React.TouchEvent<HTMLElement>) {
     touchStartX.current = event.touches[0]?.clientX ?? null;
-    setPaused(true);
   }
 
   function handleTouchEnd(event: React.TouchEvent<HTMLElement>) {
     const start = touchStartX.current;
     const end = event.changedTouches[0]?.clientX;
     touchStartX.current = null;
-    setPaused(false);
 
     if (start == null || end == null) return;
     const distance = end - start;
@@ -129,10 +123,6 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
   return (
     <section
       className="relative touch-pan-y overflow-hidden bg-navy"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-roledescription="carousel"

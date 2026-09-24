@@ -15,14 +15,24 @@ const productAreas = [
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto w-full max-w-[1800px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16 xl:px-10">
+    <div className="mx-auto w-full max-w-[1800px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 xl:px-10">
       <FadeIn>
         <section className="mb-8 overflow-hidden rounded-2xl bg-[#39456b] shadow-lg">
           <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="flex items-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
               <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-[#2c3654] sm:h-28 sm:w-28">
-                  <Image src="/logo.png" alt="Maverick Minds, Inc." fill className="object-contain p-3" priority />
+                <div className="logo-float relative h-24 w-24 shrink-0 sm:h-28 sm:w-28">
+                  <div className="logo-glow absolute inset-0 rounded-2xl bg-blue-400/20 blur-xl" />
+                  <div className="logo-shine relative h-full w-full overflow-hidden rounded-2xl ring-1 ring-white/15">
+                    <Image
+                      src="/logo.png"
+                      alt="Maverick Minds, Inc."
+                      fill
+                      priority
+                      sizes="112px"
+                      className="object-cover scale-[1.14]"
+                    />
+                  </div>
                 </div>
 
                 <div>

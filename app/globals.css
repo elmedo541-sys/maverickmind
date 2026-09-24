@@ -9,8 +9,8 @@ html {
 
 html,
 body {
-  overflow-x: hidden;
   max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -39,18 +39,145 @@ textarea {
   font: inherit;
 }
 
-@keyframes float-icon {
+a,
+button,
+input,
+select,
+textarea {
+  outline-offset: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #60a5fa;
+}
+
+@keyframes logo-float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-6px);
+    transform: translateY(-7px) scale(1.015);
   }
 }
 
-.animate-float-icon {
-  animation: float-icon 3s ease-in-out infinite;
+@keyframes logo-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes logo-shine {
+  0% {
+    transform: translateX(-170%) rotate(18deg);
+  }
+  45%,
+  100% {
+    transform: translateX(220%) rotate(18deg);
+  }
+}
+
+@keyframes hero-orbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(12px, -8px, 0);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.logo-float {
+  animation: logo-float 4.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.logo-glow {
+  animation: logo-glow 3.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.logo-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-shine::after {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  width: 28%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
+  animation: logo-shine 5.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero-orbit {
+  animation: hero-orbit 18s linear infinite;
+}
+
+.hero-drift {
+  animation: hero-drift 7s ease-in-out infinite;
+}
+
+.soft-pulse {
+  animation: soft-pulse 3.4s ease-in-out infinite;
+}
+
+.mobile-safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 640px) {
+  body {
+    background-size: 20px 20px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@media (hover: none) {
+  .touch-no-lift:hover {
+    transform: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

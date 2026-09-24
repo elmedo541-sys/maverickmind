@@ -24,35 +24,39 @@ export default async function ProductsPage({
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-[1800px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16 xl:px-10">
+    <div className="mx-auto w-full max-w-[1800px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 xl:px-10">
       <FadeIn>
-        <section className="relative mb-10 overflow-hidden rounded-3xl bg-[#39456b] px-6 py-9 shadow-xl sm:px-8 lg:px-10 lg:py-11">
+        <section className="relative mb-8 overflow-hidden rounded-2xl bg-[#39456b] px-5 py-7 shadow-xl sm:mb-10 sm:rounded-3xl sm:px-8 sm:py-9 lg:px-10 lg:py-11">
           <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl" />
-          <div className="relative grid gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-8">
             <div className="max-w-3xl">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-blue-200">
+              <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-blue-200 sm:text-xs">
                 Product Catalog
               </p>
               <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-                Security &amp; communication products.
+                Find the product you need.
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-200 sm:text-base">
-                Browse categories or search the catalog to find products for your CCTV, fire alarm, communication and networking requirements.
+                Search by model or browse the categories below. You can contact us if you need help checking compatibility.
               </p>
             </div>
 
-            <form className="w-full lg:w-auto">
+            <form className="w-full lg:w-auto" role="search">
+              <label htmlFor="product-search" className="sr-only">
+                Search products
+              </label>
               <div className="flex w-full flex-col gap-2 sm:flex-row lg:min-w-[430px]">
                 <input
-                  type="text"
+                  id="product-search"
+                  type="search"
                   name="search"
-                  placeholder="Search products..."
+                  placeholder="Search model or product name"
                   defaultValue={search}
-                  className="min-w-0 flex-1 rounded-xl border border-white/15 bg-white px-4 py-3 text-base text-gray-900 outline-none transition placeholder:text-gray-400 focus:ring-2 focus:ring-blue-300 sm:text-sm"
+                  className="min-h-12 min-w-0 flex-1 rounded-xl border border-white/15 bg-white px-4 py-3 text-base text-gray-900 outline-none transition placeholder:text-gray-400 focus:ring-2 focus:ring-blue-300"
                 />
                 <button
                   type="submit"
-                  className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-blue-500"
+                  className="min-h-12 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition active:scale-[0.99] hover:bg-blue-500"
                 >
                   Search
                 </button>
@@ -60,18 +64,18 @@ export default async function ProductsPage({
             </form>
           </div>
 
-          <div className="relative mt-7 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+          <div className="relative mt-6 flex flex-wrap items-center gap-2.5 border-t border-white/10 pt-5 sm:mt-7 sm:gap-3">
             <Link
               href="/products"
-              className="rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/15"
+              className="inline-flex min-h-10 items-center rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/15"
             >
-              Browse Categories
+              Categories
             </Link>
             <Link
               href="/products?all=1"
-              className="rounded-lg bg-white px-4 py-2 text-xs font-bold text-navy transition hover:bg-gray-100"
+              className="inline-flex min-h-10 items-center rounded-lg bg-white px-4 py-2 text-xs font-bold text-navy transition hover:bg-gray-100"
             >
-              View All Products
+              All Products
             </Link>
           </div>
         </section>
@@ -80,8 +84,8 @@ export default async function ProductsPage({
       {isBrowsing && categoryTiles.length > 0 && (
         <section>
           <FadeIn delay={60}>
-            <div className="mb-7">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-blue-700">
+            <div className="mb-6 sm:mb-7">
+              <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-blue-700 sm:text-xs">
                 Categories
               </p>
               <h2 className="text-2xl font-bold text-navy sm:text-3xl">
@@ -90,7 +94,7 @@ export default async function ProductsPage({
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5 xl:grid-cols-6">
             {categoryTiles.map((category, index) => {
               const coverImage = category.products[0]?.images[0] ?? null;
 
@@ -98,7 +102,7 @@ export default async function ProductsPage({
                 <FadeIn key={category.id} delay={Math.min(index, 10) * 45}>
                   <Link
                     href={`/products?category=${category.id}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl"
+                    className="touch-no-lift group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl active:scale-[0.99]"
                   >
                     <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f6f7fb]">
                       {coverImage ? (
@@ -106,25 +110,26 @@ export default async function ProductsPage({
                           src={coverImage}
                           alt={category.categoryName}
                           fill
-                          className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 17vw"
+                          className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.04] sm:p-4"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">
+                        <div className="flex h-full w-full items-center justify-center px-2 text-center text-xs text-gray-400">
                           No image
                         </div>
                       )}
                     </div>
 
-                    <div className="flex flex-1 items-end justify-between gap-3 p-4">
-                      <div>
-                        <p className="text-sm font-bold text-navy sm:text-base">
+                    <div className="flex flex-1 items-end justify-between gap-2 p-3.5 sm:gap-3 sm:p-4">
+                      <div className="min-w-0">
+                        <p className="line-clamp-2 text-sm font-bold text-navy sm:text-base">
                           {category.categoryName}
                         </p>
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-[11px] text-gray-500 sm:text-xs">
                           {category._count.products} {category._count.products === 1 ? "product" : "products"}
                         </p>
                       </div>
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white" aria-hidden="true">
                         →
                       </span>
                     </div>
@@ -139,14 +144,14 @@ export default async function ProductsPage({
       {!isBrowsing && (
         <section>
           <FadeIn delay={70}>
-            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-5 flex flex-col gap-2 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm font-semibold text-gray-500">
                   {products.length} {products.length === 1 ? "product" : "products"} found
                 </p>
                 {search && (
                   <p className="mt-1 text-sm text-gray-600">
-                    Search results for <span className="font-semibold text-navy">“{search}”</span>
+                    Results for <span className="font-semibold text-navy">“{search}”</span>
                   </p>
                 )}
               </div>
@@ -154,7 +159,7 @@ export default async function ProductsPage({
               {(search || categoryId || brandId) && (
                 <Link
                   href="/products"
-                  className="text-sm font-bold text-blue-700 hover:underline"
+                  className="inline-flex min-h-10 items-center self-start text-sm font-bold text-blue-700 hover:underline sm:self-auto"
                 >
                   Clear filters
                 </Link>
@@ -164,21 +169,21 @@ export default async function ProductsPage({
 
           {products.length === 0 ? (
             <FadeIn delay={100}>
-              <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm sm:p-12">
+              <div className="rounded-2xl border border-gray-200 bg-white p-7 text-center shadow-sm sm:p-12">
                 <h2 className="text-xl font-bold text-navy">No products found</h2>
-                <p className="mt-2 text-sm text-gray-500">
-                  Try another search or return to the product categories.
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  Try another model name or go back to the product categories.
                 </p>
                 <Link
                   href="/products"
-                  className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
+                  className="mt-5 inline-flex min-h-12 items-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
                 >
                   Browse Categories
                 </Link>
               </div>
             </FadeIn>
           ) : (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5 xl:grid-cols-6">
               {products.map((product, index) => (
                 <FadeIn key={product.id} delay={Math.min(index, 10) * 45}>
                   <ProductCard

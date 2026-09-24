@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import InstallAppButton from "./InstallAppButton";
 
@@ -11,6 +11,28 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        setProductsOpen(false);
+        setExpandedCategory(null);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
   function closeAll() {
     setOpen(false);
@@ -25,9 +47,10 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
         onClick={() => setOpen((value) => !value)}
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
-        className="rounded-lg p-2.5 transition hover:bg-white/10"
+        aria-controls="mobile-navigation"
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition active:scale-95 hover:bg-white/10"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           {open ? (
             <path
               d="M6 6L18 18M6 18L18 6"
@@ -47,151 +70,157 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
       </button>
 
       <div
-        className={`absolute left-0 right-0 top-full overflow-hidden border-t border-white/10 bg-navy shadow-2xl transition-all duration-300 ${
-          open ? "max-h-[calc(100vh-68px)] overflow-y-auto" : "max-h-0"
+        className={`fixed inset-x-0 bottom-0 top-[65px] z-40 border-t border-white/10 bg-navy/[0.98] shadow-2xl backdrop-blur-xl transition duration-300 sm:top-[65px] ${
+          open
+            ? "pointer-events-auto translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-2 opacity-0"
         }`}
+        aria-hidden={!open}
       >
-        <nav className="mx-auto w-full max-w-[1800px] px-4 py-4 sm:px-6" aria-label="Mobile navigation">
-          <ul className="space-y-1 text-sm font-semibold">
-            <li>
-              <Link
-                href="/"
-                onClick={closeAll}
-                className="block rounded-xl px-4 py-3 hover:bg-white/10"
-              >
-                Home
-              </Link>
-            </li>
+        <nav
+          id="mobile-navigation"
+          className="mobile-safe-bottom mx-auto h-full w-full max-w-2xl overflow-y-auto px-4 py-5 sm:px-6"
+          aria-label="Mobile navigation"
+        >
+          <div className="mb-4 rounded-2xl border border-white/10 bg-white/[0.04] p-2">
+            <Link
+              href="/"
+              onClick={closeAll}
+              className="flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              <span>Home</span>
+              <span aria-hidden="true" className="text-blue-200">→</span>
+            </Link>
 
-            <li>
-              <button
-                type="button"
-                onClick={() => setProductsOpen((value) => !value)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 hover:bg-white/10"
+            <button
+              type="button"
+              onClick={() => setProductsOpen((value) => !value)}
+              className="flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-semibold text-white transition hover:bg-white/10"
+              aria-expanded={productsOpen}
+            >
+              <span>Products</span>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 10 10"
+                fill="none"
+                className={`transition-transform duration-200 ${productsOpen ? "rotate-180" : ""}`}
+                aria-hidden="true"
               >
-                Products
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  className={`transition-transform ${productsOpen ? "rotate-180" : ""}`}
-                >
-                  <path
-                    d="M1 3L5 7L9 3"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
+                <path d="M1 3L5 7L9 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
 
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  productsOpen ? "max-h-[32rem]" : "max-h-0"
-                }`}
-              >
-                <div className="ml-3 space-y-1 border-l border-white/10 py-1 pl-3">
+            <div
+              className={`grid transition-[grid-template-rows] duration-300 ${
+                productsOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="mx-2 mb-2 rounded-xl bg-[#07172c] p-2">
                   <Link
                     href="/products?all=1"
                     onClick={closeAll}
-                    className="block rounded-lg px-3 py-2 text-blue-200 hover:bg-white/10"
+                    className="flex min-h-11 items-center justify-between rounded-lg px-3 py-2.5 text-sm font-bold text-blue-200 transition hover:bg-white/10"
                   >
-                    All Products
+                    <span>All Products</span>
+                    <span aria-hidden="true">→</span>
                   </Link>
 
-                  {categories.map((category) => (
-                    <div key={category.id}>
-                      <div className="flex items-center">
-                        <Link
-                          href={`/products?category=${category.id}`}
-                          onClick={closeAll}
-                          className="flex-1 rounded-lg px-3 py-2 text-gray-200 hover:bg-white/10"
-                        >
-                          {category.categoryName}
-                        </Link>
+                  {categories.map((category) => {
+                    const expanded = expandedCategory === category.id;
+
+                    return (
+                      <div key={category.id} className="border-t border-white/[0.06] first:border-t-0">
+                        <div className="flex items-center gap-1">
+                          <Link
+                            href={`/products?category=${category.id}`}
+                            onClick={closeAll}
+                            className="flex min-h-11 flex-1 items-center rounded-lg px-3 py-2.5 text-sm text-gray-200 transition hover:bg-white/10"
+                          >
+                            {category.categoryName}
+                          </Link>
+
+                          {category.brands.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setExpandedCategory((current) =>
+                                  current === category.id ? null : category.id
+                                )
+                              }
+                              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-gray-300 transition hover:bg-white/10"
+                              aria-label={`${expanded ? "Hide" : "Show"} brands for ${category.categoryName}`}
+                              aria-expanded={expanded}
+                            >
+                              <svg
+                                width="11"
+                                height="11"
+                                viewBox="0 0 10 10"
+                                fill="none"
+                                className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+                                aria-hidden="true"
+                              >
+                                <path d="M1 3L5 7L9 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
 
                         {category.brands.length > 0 && (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setExpandedCategory((current) =>
-                                current === category.id ? null : category.id
-                              )
-                            }
-                            className="rounded-lg px-3 py-2 text-gray-400 hover:bg-white/10"
-                            aria-label={`Show brands for ${category.categoryName}`}
+                          <div
+                            className={`grid transition-[grid-template-rows] duration-200 ${
+                              expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                            }`}
                           >
-                            <svg
-                              width="9"
-                              height="9"
-                              viewBox="0 0 10 10"
-                              fill="none"
-                              className={`transition-transform ${
-                                expandedCategory === category.id ? "rotate-180" : ""
-                              }`}
-                            >
-                              <path
-                                d="M1 3L5 7L9 3"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </button>
+                            <div className="overflow-hidden">
+                              <div className="mb-2 ml-3 border-l border-white/10 pl-2">
+                                {category.brands.map((brand) => (
+                                  <Link
+                                    key={brand.id}
+                                    href={`/products?category=${category.id}&brand=${brand.id}`}
+                                    onClick={closeAll}
+                                    className="flex min-h-10 items-center rounded-lg px-3 py-2 text-xs text-gray-400 transition hover:bg-white/10 hover:text-white"
+                                  >
+                                    {brand.brandName}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
                         )}
                       </div>
-
-                      {category.brands.length > 0 && (
-                        <div
-                          className={`overflow-hidden transition-all duration-200 ${
-                            expandedCategory === category.id ? "max-h-44" : "max-h-0"
-                          }`}
-                        >
-                          {category.brands.map((brand) => (
-                            <Link
-                              key={brand.id}
-                              href={`/products?category=${category.id}&brand=${brand.id}`}
-                              onClick={closeAll}
-                              className="block rounded-lg py-1.5 pl-7 pr-3 text-xs text-gray-400 hover:bg-white/10"
-                            >
-                              {brand.brandName}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
-            </li>
+            </div>
 
-            <li>
-              <Link
-                href="/about"
-                onClick={closeAll}
-                className="block rounded-xl px-4 py-3 hover:bg-white/10"
-              >
-                About
-              </Link>
-            </li>
+            <Link
+              href="/about"
+              onClick={closeAll}
+              className="flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              <span>About</span>
+              <span aria-hidden="true" className="text-blue-200">→</span>
+            </Link>
+          </div>
 
-            <li className="pt-2">
-              <Link
-                href="/contact"
-                onClick={closeAll}
-                className="block rounded-xl bg-blue-600 px-4 py-3 text-center text-white hover:bg-blue-500"
-              >
-                Contact Us
-              </Link>
-            </li>
+          <Link
+            href="/contact"
+            onClick={closeAll}
+            className="flex min-h-12 w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-950/20 transition active:scale-[0.99] hover:bg-blue-500"
+          >
+            Contact Us
+          </Link>
 
-            <li className="pt-3">
-              <InstallAppButton variant="row" />
-            </li>
-          </ul>
+          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.04] p-2">
+            <InstallAppButton variant="row" />
+          </div>
+
+          <p className="mt-5 px-1 text-xs leading-5 text-gray-400">
+            Browse the catalog by category or send us the model you are looking for.
+          </p>
         </nav>
       </div>
     </div>

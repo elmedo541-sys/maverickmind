@@ -7,7 +7,7 @@ import { sendMessage, type ContactState } from "./actions";
 const initialState: ContactState = { success: false, error: "" };
 
 const fieldClassName =
-  "w-full rounded-xl border border-gray-200 bg-[#f8f9fb] px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-300 focus:bg-white focus:ring-4 focus:ring-blue-100";
+  "w-full min-h-12 rounded-xl border border-gray-200 bg-[#f8f9fb] px-4 py-3 text-base text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-300 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:text-sm";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -16,7 +16,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+      className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm transition active:scale-[0.99] hover:bg-blue-500 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
     >
       {pending ? "Sending..." : "Send Message"}
     </button>
@@ -29,8 +29,8 @@ export default function ContactForm() {
 
   if (state.success) {
     return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-5 text-sm font-medium text-green-800 animate-fade-in-up">
-        Thanks! Your message has been sent. We&apos;ll get back to you soon.
+      <div className="rounded-2xl border border-green-200 bg-green-50 p-5 text-sm font-medium text-green-800 animate-fade-in-up" role="status">
+        Your message has been sent. We&apos;ll get back to you as soon as we can.
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function ContactForm() {
   return (
     <form action={formAction} className="space-y-5">
       {state.error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700" role="alert">
           {state.error}
         </div>
       )}
@@ -53,6 +53,7 @@ export default function ContactForm() {
             type="text"
             name="name"
             required
+            autoComplete="name"
             placeholder="Your full name"
             className={fieldClassName}
           />
@@ -67,6 +68,8 @@ export default function ContactForm() {
             type="email"
             name="email"
             required
+            autoComplete="email"
+            inputMode="email"
             placeholder="you@example.com"
             className={fieldClassName}
           />
@@ -101,6 +104,8 @@ export default function ContactForm() {
               type="text"
               name="contact_detail"
               required
+              inputMode={preferredContact === "Viber" ? "tel" : "url"}
+              autoComplete={preferredContact === "Viber" ? "tel" : "off"}
               placeholder={preferredContact === "Viber" ? "e.g. 09171234567" : "e.g. m.me/yourname"}
               className={fieldClassName}
             />
@@ -119,14 +124,14 @@ export default function ContactForm() {
           name="message"
           required
           rows={7}
-          placeholder="Tell us the product, model, quantity or system requirement you are asking about..."
-          className={`${fieldClassName} resize-y`}
+          placeholder="Product, model, quantity or project requirement..."
+          className={`${fieldClassName} min-h-40 resize-y`}
         />
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs leading-5 text-gray-500">
-          Please provide accurate contact details so our team can reply to your inquiry.
+      <div className="flex flex-col gap-4 border-t border-gray-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-lg text-xs leading-5 text-gray-500">
+          Include a working email, Viber number or Messenger account so we can reply to your inquiry.
         </p>
         <SubmitButton />
       </div>

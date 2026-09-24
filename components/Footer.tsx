@@ -17,13 +17,13 @@ const productGroups = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-white/10 bg-navy text-white">
-      <div className="mx-auto w-full max-w-[1800px] px-4 py-12 sm:px-6 lg:px-8 xl:px-10">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          <div className="max-w-md">
+    <footer className="mt-16 border-t border-white/10 bg-navy text-white sm:mt-20">
+      <div className="mx-auto w-full max-w-[1800px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 xl:px-10">
+        <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          <div className="max-w-md sm:col-span-2 lg:col-span-1">
             <p className="text-lg font-bold tracking-wide">MAVERICK MINDS, INC.</p>
             <p className="mt-3 text-sm leading-6 text-gray-300">
-              Security, communication and networking products for homes, businesses and project requirements.
+              Security, communication and networking products for homes, offices and project requirements.
             </p>
             <p className="mt-4 text-sm font-semibold text-blue-200">
               Minds. Machines. Innovation.
@@ -31,11 +31,14 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">Quick Links</h2>
-            <ul className="mt-4 space-y-2.5 text-sm text-gray-300">
+            <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">Quick Links</h2>
+            <ul className="mt-3 space-y-1 text-sm text-gray-300">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="transition hover:text-white">
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-10 items-center py-1 transition hover:text-white"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -44,8 +47,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">Product Categories</h2>
-            <ul className="mt-4 space-y-2.5 text-sm text-gray-300">
+            <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">Product Categories</h2>
+            <ul className="mt-4 space-y-2.5 text-sm leading-6 text-gray-300">
               {productGroups.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -53,23 +56,23 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">Contact</h2>
+            <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">Need something specific?</h2>
             <p className="mt-4 text-sm leading-6 text-gray-300">
-              Send us your product inquiry, model number or project requirement and we&apos;ll get back to you.
+              Send the model, quantity or basic requirement and we&apos;ll help you check the available options.
             </p>
             <div className="mt-5 flex flex-col items-start gap-3">
               <Link
                 href="/contact"
-                className="inline-flex rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500"
+                className="inline-flex min-h-11 items-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500"
               >
-                Contact Us
+                Send an Inquiry
               </Link>
               <InstallAppButton variant="footer" />
             </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-gray-400 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-9 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs leading-5 text-gray-400 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} MAVERICK MINDS, INC. All rights reserved.</p>
           <p>Connecting Technology. Protecting People.</p>
         </div>

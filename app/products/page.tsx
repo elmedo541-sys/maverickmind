@@ -32,17 +32,17 @@ export default async function ProductsPage({
           <form>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h1 className="text-3xl font-bold text-white">Products</h1>
-              <div className="flex gap-2 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <input
                   type="text"
                   name="search"
                   placeholder="Search products..."
                   defaultValue={search}
-                  className="border-0 rounded px-3 py-2 text-base sm:text-sm flex-1 sm:w-64 transition focus:ring-2 focus:ring-blue-300 outline-none"
+                  className="border-0 rounded px-3 py-2 text-base sm:text-sm w-full sm:w-64 min-w-0 transition focus:ring-2 focus:ring-blue-300 outline-none"
                 />
                 <button
                   type="submit"
-                  className="bg-white text-navy rounded px-4 py-2 text-sm font-medium hover:bg-gray-100 transition transform hover:scale-105 whitespace-nowrap"
+                  className="bg-white text-navy rounded px-4 py-2 text-sm font-medium hover:bg-gray-100 transition transform hover:scale-105 whitespace-nowrap w-full sm:w-auto"
                 >
                   Search
                 </button>

@@ -4,16 +4,15 @@ import InstallAppButton from "./InstallAppButton";
 const quickLinks = [
   { href: "/", label: "Home" },
   { href: "/products?all=1", label: "Products" },
-  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
-const solutions = [
+const productGroups = [
   "CCTV Systems",
   "Fire Alarm Systems",
   "Telephone Systems",
-  "Networking Solutions",
+  "Networking Products",
 ];
 
 export default function Footer() {
@@ -24,7 +23,7 @@ export default function Footer() {
           <div className="max-w-md">
             <p className="text-lg font-bold tracking-wide">MAVERICK MINDS, INC.</p>
             <p className="mt-3 text-sm leading-6 text-gray-300">
-              Security, safety, communication and networking solutions supported by practical technical guidance.
+              Security, communication and networking products for homes, businesses and project requirements.
             </p>
             <p className="mt-4 text-sm font-semibold text-blue-200">
               Minds. Machines. Innovation.
@@ -32,9 +31,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">
-              Quick Links
-            </h2>
+            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">Quick Links</h2>
             <ul className="mt-4 space-y-2.5 text-sm text-gray-300">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -47,22 +44,18 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">
-              Solutions
-            </h2>
+            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">Product Categories</h2>
             <ul className="mt-4 space-y-2.5 text-sm text-gray-300">
-              {solutions.map((solution) => (
-                <li key={solution}>{solution}</li>
+              {productGroups.map((item) => (
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">
-              Stay Connected
-            </h2>
+            <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-blue-200">Contact</h2>
             <p className="mt-4 text-sm leading-6 text-gray-300">
-              Contact our team for product inquiries, system consultation and technical support.
+              Send us your product inquiry, model number or project requirement and we&apos;ll get back to you.
             </p>
             <div className="mt-5 flex flex-col items-start gap-3">
               <Link

@@ -119,7 +119,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={7}
-          placeholder="Tell us about the products, service or project you need help with..."
+          placeholder="Tell us the product, model, quantity or system requirement you are asking about..."
           className={`${fieldClassName} resize-y`}
         />
       </div>

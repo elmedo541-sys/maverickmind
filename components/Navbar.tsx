@@ -31,15 +31,6 @@ export default async function Navbar() {
 
               <li>
                 <Link
-                  href="/services"
-                  className="rounded-lg px-3 py-2.5 text-gray-100 transition hover:bg-white/10 hover:text-blue-200"
-                >
-                  Services
-                </Link>
-              </li>
-
-              <li>
-                <Link
                   href="/about"
                   className="rounded-lg px-3 py-2.5 text-gray-100 transition hover:bg-white/10 hover:text-blue-200"
                 >

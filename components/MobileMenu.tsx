@@ -170,16 +170,6 @@ export default function MobileMenu({ categories }: { categories: Category[] }) {
 
             <li>
               <Link
-                href="/services"
-                onClick={closeAll}
-                className="block rounded-xl px-4 py-3 hover:bg-white/10"
-              >
-                Services
-              </Link>
-            </li>
-
-            <li>
-              <Link
                 href="/about"
                 onClick={closeAll}
                 className="block rounded-xl px-4 py-3 hover:bg-white/10"
